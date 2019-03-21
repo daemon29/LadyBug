@@ -8,4 +8,4 @@
 
 ## Authors
 * [Vinh-Thuyen](https://github.com/lightkeima)
-* daeamon29(https://github.com/daemon29)
+* [daeamon29](https://github.com/daemon29)
