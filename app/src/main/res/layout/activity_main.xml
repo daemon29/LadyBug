@@ -7,6 +7,7 @@
     tools:context=".MainActivity">
 
     <LinearLayout
+        android:id="@+id/linearlayout0"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -54,6 +55,7 @@
                 android:background="@null"
                 app:srcCompat="@drawable/ic_photo_camera_black_24dp"
                  />
+
         </RelativeLayout>
 
     </LinearLayout>
