@@ -5,10 +5,9 @@
     <string name="title_name">Name of the product</string>
     <string name="submit">Submit</string>
     <string name="example_title">Example apple banana</string>
-    <string-array name="extend">
-        <item> 1 </item>
-        <item> 2 </item>
-        <item> 3 </item>
-        <item> Unknown </item>
-    </string-array>
+    <integer-array name="extend">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </integer-array>
 </resources>
