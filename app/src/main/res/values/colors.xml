@@ -4,10 +4,11 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
     <color name="colorBlue">#36BBEC</color>
-<color name="foodbackground">#FCAB10</color>
-<color name="foodbackgroundTint">#FCAB10</color>
-<color name="eventbackground">#FBFF12</color>
-<color name="eventbackgroundTint">#FBFF12</color>
-<color name="trashbackground">#00FFC5</color>
-<color name="trachbackgroundTint">#08A045</color>
+    <color name="white">#ffffff</color>
+    <color name="foodbackground">#FCAB10</color>
+    <color name="foodbackgroundTint">#FCAB10</color>
+    <color name="eventbackground">#FBFF12</color>
+    <color name="eventbackgroundTint">#FBFF12</color>
+    <color name="trashbackground">#00FFC5</color>
+    <color name="trachbackgroundTint">#08A045</color>
 </resources>
