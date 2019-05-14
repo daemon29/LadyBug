@@ -25,6 +25,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -40,6 +41,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -59,13 +61,45 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mFunction=FirebaseFunctions.getInstance("asia-northeast1");
         mStorage=FirebaseStorage.getInstance("gs://donatetosave-2fec5");
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab =  findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(intent,0);
+                LayoutInflater inflater = (LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE);
+                View popupView = inflater.inflate(R.layout.popup,null);
+                int width = LinearLayout.LayoutParams.WRAP_CONTENT;
+                int height = LinearLayout.LayoutParams.WRAP_CONTENT;
+                boolean focusable= true;
+                final PopupWindow popupWindow= new PopupWindow(popupView,width,height,focusable);
+                popupWindow.showAtLocation(findViewById(R.id.drawer_layout), Gravity.CENTER,0,0);
+
+                ImageButton take_photo= popupView.findViewById(R.id.take_photo_btn);
+                Button upload_photo= popupView.findViewById(R.id.upload_btn);
+                take_photo.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        popupWindow.dismiss();
+                        startActivityForResult(intent,0);
+                    }
+                });
+                upload_photo.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK,MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+                        popupWindow.dismiss();
+                        startActivityForResult(photoPickerIntent,100);
+                    }
+                });
+                popupView.setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        popupWindow.dismiss();
+                        return false;
+                    }
+                });
             }
+
         });
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -80,16 +114,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        final Bitmap imageBitmap=(Bitmap)data.getExtras().get("data");
-        LayoutInflater inflater = (LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE);
+        Bitmap imageBitmap=null;
+        if(requestCode==0){
+            imageBitmap=(Bitmap)data.getExtras().get("data");}
+        else
+        if(requestCode==100){
+            Uri selectedImage = data.getData();
+            try{imageBitmap=MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);}
+            catch (IOException e){
+                //catch cho vui thoi đéo biết handle sao cả
+            }
+        }
+
+    LayoutInflater inflater = (LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE);
         View popupView = inflater.inflate(R.layout.popup,null);
         int width = LinearLayout.LayoutParams.WRAP_CONTENT;
         int height = LinearLayout.LayoutParams.WRAP_CONTENT;
         boolean focusable= true;
         final PopupWindow popupWindow= new PopupWindow(popupView,width,height,focusable);
         popupWindow.showAtLocation(findViewById(R.id.drawer_layout), Gravity.CENTER,0,0);
-        ImageView popupImage = popupView.findViewById(R.id.image_id);
 
+        ImageView popupImage = popupView.findViewById(R.id.image_id);
         popupImage.setImageBitmap(imageBitmap);
         popupImage.setDrawingCacheEnabled(true);
         popupImage.buildDrawingCache();
@@ -100,13 +145,34 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         final String filename = System.currentTimeMillis()+"image.jpg";
         storageRef= mStorage.getReference(filename);
 
-        Button button= popupView.findViewById(R.id.submit);
+        Button button=popupView.findViewById(R.id.submit);
         final EditText name=popupView.findViewById(R.id.title);
         final Spinner spinner = popupView.findViewById(R.id.spinner_extend);
         Integer[] items = new Integer[]{1,2,3,4};
         ArrayAdapter<Integer> adapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item,items);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
+
+        ImageButton take_photo= popupView.findViewById(R.id.take_photo_btn);
+        Button upload_photo= popupView.findViewById(R.id.upload_btn);
+        take_photo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                popupWindow.dismiss();
+                startActivityForResult(intent,0);
+            }
+        });
+
+        upload_photo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK,MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+                popupWindow.dismiss();
+                startActivityForResult(photoPickerIntent,100);
+            }
+        });
+
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -134,15 +200,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         mFunction.getHttpsCallable("submit").call(data);
                     }
                 });
-            }
-        });
-        popupView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
                 popupWindow.dismiss();
-                return false;
             }
         });
+       popupView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+           public boolean onTouch(View v, MotionEvent event) {
+               popupWindow.dismiss();
+                return false;
+          }
+       });
     }
     @Override
     public void onBackPressed() {
@@ -196,7 +263,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer =  findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }

@@ -30,15 +30,15 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/UploadBtn"
+                android:id="@+id/upload_btn"
                 android:text="@string/upload_btn"/>
+
             <ImageButton
+                android:id="@+id/take_photo_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/take_photo_btn"
                 android:background="@null"
-                app:srcCompat="@drawable/ic_photo_camera_black_24dp"
-                />
+                app:srcCompat="@drawable/ic_photo_camera_black_24dp" />
         </LinearLayout>
         <TextView
             android:id="@+id/title_name"
