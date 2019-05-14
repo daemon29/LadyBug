@@ -10,6 +10,7 @@
         <item>2</item>
         <item>3</item>
     </integer-array>
+    <string name="upload_btn">Upload</string>
     <string name="action_sign_in_short">Register</string>
     <string name="email">Email</string>
     <string name="minimum_password">Password too short, enter minimum 6 characters!</string>
@@ -38,4 +39,10 @@
     <string name="btn_sign_out">Sign Out</string>
     <string name="lbl_forgot_password">Forgot password?</string>
     <string name="forgot_password_msg">We just need your registered Email Id to sent you password reset instructions.</string>
+    <string name="action_settings">Settings</string>
+    <string name="Name">Nguyễn Hoàng Thanh Tuấn</string>
+    <string name="Reference">CEO of D2S - nhttuan@apcs.vn</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
 </resources>

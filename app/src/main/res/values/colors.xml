@@ -10,5 +10,5 @@
     <color name="eventbackground">#FBFF12</color>
     <color name="eventbackgroundTint">#FBFF12</color>
     <color name="trashbackground">#00FFC5</color>
-    <color name="trachbackgroundTint">#08A045</color>
+    <color name="trashbackgroundTint">#08A045</color>
 </resources>
