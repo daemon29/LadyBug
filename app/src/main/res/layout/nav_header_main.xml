@@ -13,14 +13,14 @@
     android:weightSum="1">
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/profile_pic"
         android:layout_width="100dp"
         android:layout_height="50dp"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
-        android:src="@drawable/tuan"
-        android:layout_weight="0.40" />
-
+        android:layout_weight="1" />
+    <!--android:src="@drawable/tuan"-->
     <TextView
+        android:id="@+id/name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
@@ -28,9 +28,9 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/detail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/Reference" />
+        />
 
 </LinearLayout>

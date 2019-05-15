@@ -16,6 +16,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -30,10 +31,18 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import com.google.firebase.functions.FirebaseFunctions;
 import com.google.firebase.storage.FirebaseStorage;
@@ -45,11 +54,18 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.bumptech.glide.Glide;
+
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
     FirebaseFunctions mFunction;
     FirebaseStorage mStorage;
     StorageReference storageRef;
+
+    private TextView name;
+    private TextView detail;
+    private ImageView profile_pic;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,9 +73,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        Profile profile= new Profile(null,null,null,null);
         mFunction=FirebaseFunctions.getInstance("asia-northeast1");
         mStorage=FirebaseStorage.getInstance("gs://donatetosave-2fec5");
+        FirebaseUser currentuser=FirebaseAuth.getInstance().getCurrentUser();
+        final String userid = currentuser.getUid();
+        Toast.makeText(MainActivity.this,userid,Toast.LENGTH_LONG);
 
         FloatingActionButton fab =  findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -109,8 +128,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        name = navigationView.getHeaderView(0).findViewById(R.id.name);
+        detail = navigationView.getHeaderView(0).findViewById(R.id.detail);
+        profile_pic = navigationView.getHeaderView(0).findViewById(R.id.profile_pic);
+        SetProfile();
     }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -126,7 +148,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         }
 
-    LayoutInflater inflater = (LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = (LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE);
         View popupView = inflater.inflate(R.layout.popup,null);
         int width = LinearLayout.LayoutParams.WRAP_CONTENT;
         int height = LinearLayout.LayoutParams.WRAP_CONTENT;
@@ -267,17 +289,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-//    private Task<String> Submit(Map data) {
-//        return mFunction
-//                .getHttpsCallable("submit")
-//                .call(data)
-//                .continueWith(new Continuation<HttpsCallableResult, String>() {
-//                    @Override
-//                    public String then(@NonNull Task<HttpsCallableResult> task) throws Exception {
-//                        String result = (String) task.getResult().getData();
-//                        return result;
-//                    }
-//                });
-//    }
+    public void SetProfile(){
+        DocumentReference noteRef = FirebaseFirestore.getInstance().collection("User").document("vzrUtGgbtnPRYmzbA5wQTJbk5tj2");
+        noteRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                name.setText(documentSnapshot.getString("name"));
+                detail.setText(documentSnapshot.getString("organization")+"-"+documentSnapshot.getString("email"));
+                Glide.with(getApplicationContext()).load(documentSnapshot.getString("image_url")).into(profile_pic);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+            }
+        });
+    }
 }
 
