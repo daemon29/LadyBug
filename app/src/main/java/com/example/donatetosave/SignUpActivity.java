@@ -14,11 +14,17 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.functions.FirebaseFunctions;
+
+import java.util.HashMap;
+import java.util.Map;
+
 public class SignUpActivity extends AppCompatActivity   {
-    private EditText inputEmail, inputPassword;
+    private EditText inputEmail, inputPassword, inputName, inputDetail;
     private Button btnSignIn, btnSignUp, btnResetPassword;
     private ProgressBar progressBar;
     private FirebaseAuth auth;
+    FirebaseFunctions mFunction;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,11 +33,15 @@ public class SignUpActivity extends AppCompatActivity   {
 
         //Get Firebase auth instance
         auth = FirebaseAuth.getInstance();
+        mFunction=FirebaseFunctions.getInstance("asia-northeast1");
 
         btnSignIn =  findViewById(R.id.sign_in_button);
         btnSignUp = findViewById(R.id.sign_up_button);
         inputEmail =  findViewById(R.id.email);
         inputPassword =  findViewById(R.id.password);
+        inputName = findViewById(R.id.full_name);
+        inputDetail= findViewById(R.id.re_details);
+
         progressBar =  findViewById(R.id.progressBar);
         btnResetPassword =  findViewById(R.id.btn_reset_password);
 
@@ -53,9 +63,10 @@ public class SignUpActivity extends AppCompatActivity   {
             @Override
             public void onClick(View v) {
 
-                String email = inputEmail.getText().toString().trim();
+                final String email = inputEmail.getText().toString().trim();
                 String password = inputPassword.getText().toString().trim();
-
+                final String name = inputName.getText().toString().trim();
+                final String details= inputDetail.getText().toString().trim();
                 if (TextUtils.isEmpty(email)) {
                     Toast.makeText(getApplicationContext(), "Enter email address!", Toast.LENGTH_SHORT).show();
                     return;
@@ -86,6 +97,13 @@ public class SignUpActivity extends AppCompatActivity   {
                                     Toast.makeText(SignUpActivity.this, "Authentication failed." + task.getException(),
                                             Toast.LENGTH_SHORT).show();
                                 } else {
+                                    final Map<String,Object> data = new HashMap<>();
+                                    data.put("email",email);
+                                    data.put("image_url","");
+                                    data.put("name",name);
+                                    data.put("organization",details);
+                                    data.put("aui",FirebaseAuth.getInstance().getCurrentUser().getUid());
+                                    mFunction.getHttpsCallable("setProfile").call(data);
                                     startActivity(new Intent(SignUpActivity.this, MainActivity.class));
                                     finish();
                                 }

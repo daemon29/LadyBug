@@ -34,7 +34,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 
@@ -78,7 +77,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mStorage=FirebaseStorage.getInstance("gs://donatetosave-2fec5");
         FirebaseUser currentuser=FirebaseAuth.getInstance().getCurrentUser();
         final String userid = currentuser.getUid();
-        Toast.makeText(MainActivity.this,userid,Toast.LENGTH_LONG);
 
         FloatingActionButton fab =  findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -131,7 +129,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         name = navigationView.getHeaderView(0).findViewById(R.id.name);
         detail = navigationView.getHeaderView(0).findViewById(R.id.detail);
         profile_pic = navigationView.getHeaderView(0).findViewById(R.id.profile_pic);
-        SetProfile();
+        SetProfile(userid);
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -289,8 +287,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-    public void SetProfile(){
-        DocumentReference noteRef = FirebaseFirestore.getInstance().collection("User").document("vzrUtGgbtnPRYmzbA5wQTJbk5tj2");
+    public void SetProfile(String userid){
+        DocumentReference noteRef = FirebaseFirestore.getInstance().collection("User").document(userid);
         noteRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {

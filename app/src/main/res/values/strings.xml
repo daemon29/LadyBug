@@ -44,5 +44,9 @@
     <string name="Reference">CEO of D2S - nhttuan@apcs.vn</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="full_name">Full Name</string>
+    <string name="details">Thông tin ngắn của bạn (tùy chọn)</string>
+
+
 
 </resources>

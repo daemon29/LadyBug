@@ -34,21 +34,39 @@
                 android:textColor="@android:color/white" />
 
 
+        <EditText
+            android:id="@+id/password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusableInTouchMode="true"
+            android:hint="@string/hint_password"
+            android:imeOptions="actionUnspecified"
+            android:inputType="textPassword"
+            android:maxLines="1"
+            android:layout_marginTop="16dp"
+            android:singleLine="true"
+            android:textColor="@android:color/white" />
 
-
-            <EditText
-                android:id="@+id/password"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:focusableInTouchMode="true"
-                android:hint="@string/hint_password"
-                android:imeOptions="actionUnspecified"
-                android:inputType="textPassword"
-                android:maxLines="1"
-                android:singleLine="true"
-                android:textColor="@android:color/white"
-                />
-
+        <EditText
+            android:id="@+id/full_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/full_name"
+            android:inputType="textCapSentences"
+            android:maxLines="1"
+            android:layout_marginTop="16dp"
+            android:singleLine="true"
+            android:textColor="@android:color/white" />
+        <EditText
+            android:id="@+id/re_details"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/details"
+            android:inputType="textCapSentences"
+            android:maxLines="1"
+            android:layout_marginTop="16dp"
+            android:singleLine="true"
+            android:textColor="@android:color/white" />
 
         <Button
             android:id="@+id/sign_up_button"
