@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -21,7 +20,8 @@
             android:layout_height="@dimen/logo_w_h"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="30dp"
-            android:src="@mipmap/ic_launcher" />
+            android:src="@mipmap/ic_launcher"
+            android:contentDescription="@string/todo" />
             <EditText
                 android:id="@+id/email"
                 android:layout_width="match_parent"
@@ -42,23 +42,40 @@
                 android:textColor="@android:color/white"
                 android:textColorHint="@android:color/white"
                 />
-
-        <!-- Login Button -->
-
         <Button
             android:id="@+id/btn_login"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dip"
+            android:layout_marginBottom="20dip"
             android:background="@color/colorAccent"
             android:text="@string/btn_login"
             android:textColor="@android:color/black" />
+
+        <!--<com.facebook.login.widget.LoginButton-->
+            <!--android:id="@+id/login_with_facebook"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginBottom="20dp"-->
+            <!--android:layout_gravity="center_horizontal"-->
+            <!--android:text="@string/login_with_facebook" />-->
+
+        <Button
+            android:id="@+id/login_with_google"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/login_with_google"
+            android:textAlignment="center"
+            android:layout_marginBottom="20dp"
+            android:gravity="center_vertical|center_horizontal|left"
+            android:drawableStart="@drawable/ic_google"
+            android:background="@drawable/round_bg"/>
+
 
         <Button
             android:id="@+id/btn_reset_password"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dip"
+            android:layout_marginTop="20dp"
             android:background="@null"
             android:text="@string/btn_forgot_password"
             android:textAllCaps="false"
@@ -70,7 +87,7 @@
             android:id="@+id/btn_signup"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dip"
+            android:layout_marginTop="20dp"
             android:background="@null"
             android:text="@string/btn_link_to_register"
             android:textAllCaps="false"

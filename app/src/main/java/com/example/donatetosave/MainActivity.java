@@ -16,7 +16,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -70,9 +69,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        Profile profile= new Profile(null,null,null,null);
         mFunction=FirebaseFunctions.getInstance("asia-northeast1");
         mStorage=FirebaseStorage.getInstance("gs://donatetosave-2fec5");
         FirebaseUser currentuser=FirebaseAuth.getInstance().getCurrentUser();
@@ -118,13 +116,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
 
         });
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer =  findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
+        drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         name = navigationView.getHeaderView(0).findViewById(R.id.name);
         detail = navigationView.getHeaderView(0).findViewById(R.id.detail);
@@ -205,12 +203,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 uploadTask.addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(MainActivity.this,"Fail upload file",Toast.LENGTH_LONG);
+                        Toast.makeText(MainActivity.this,"Fail upload file",Toast.LENGTH_LONG).show();
                     }
                 }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        Toast.makeText(MainActivity.this,"Success upload file",Toast.LENGTH_LONG);
+                        Toast.makeText(MainActivity.this,"Success upload file",Toast.LENGTH_LONG).show();
                     }
                 });
                 storageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
@@ -269,11 +267,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.nav_home) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.nav_organization) {
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_map) {
 
         } else if (id == R.id.nav_manage) {
 
@@ -284,7 +282,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_signout) {
             FirebaseAuth.getInstance().signOut();
             startActivity(new Intent(MainActivity.this, LoginActivity.class));
-            finish();
         }
         DrawerLayout drawer =  findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

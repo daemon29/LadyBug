@@ -3,41 +3,45 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_camera"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="Import" />
+            android:id="@+id/nav_home"
+            android:icon="@drawable/ic_home"
+            android:title="@string/home" />
         <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="Gallery" />
+            android:id="@+id/nav_ntification"
+            android:icon="@drawable/ic_notifications"
+            android:title="@string/notification" />
         <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Slideshow" />
+            android:id="@+id/nav_organization"
+            android:icon="@drawable/ic_organization"
+            android:title="@string/organization" />
         <item
-            android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
+            android:id="@+id/nav_map"
+            android:icon="@drawable/ic_map"
+            android:title="@string/donate_map" />
     </group>
 
-    <item android:title="Communicate">
+    <item android:title="@string/communicate">
         <menu>
             <item
                 android:id="@+id/nav_share"
                 android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
+                android:title="@string/share" />
             <item
                 android:id="@+id/nav_send"
                 android:icon="@drawable/ic_menu_send"
-                android:title="Send" />
+                android:title="@string/send" />
         </menu>
     </item>
-    <item android:title="Setting">
+    <item android:title="@string/tools">
         <menu>
+            <item
+                android:id="@+id/nav_manage"
+                android:icon="@drawable/ic_menu_manage"
+                android:title="@string/setting" />
             <item
                 android:id="@+id/nav_signout"
                 android:icon="@drawable/ic_log_out"
-                android:title="Sign Out" />
+                android:title="@string/sign_out" />
         </menu>
     </item>
 </menu>
