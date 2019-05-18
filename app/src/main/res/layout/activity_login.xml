@@ -63,13 +63,23 @@
             android:id="@+id/login_with_google"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/login_with_google"
+            android:text="@string/google"
             android:textAlignment="center"
-            android:layout_marginBottom="20dp"
-            android:gravity="center_vertical|center_horizontal|left"
+            android:layout_marginBottom="5dp"
+            android:gravity="center_vertical|center_horizontal|start"
             android:drawableStart="@drawable/ic_google"
             android:background="@drawable/round_bg"/>
-
+        <Button
+            android:id="@+id/login_with_facebook"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/facebook"
+            android:textColor="@color/com_facebook_button_background_color_focused"
+            android:background="@color/com_facebook_blue"
+            android:textAlignment="center"
+            android:layout_marginTop="5dp"
+            android:gravity="center_vertical|center_horizontal|start"
+            android:drawableStart="@drawable/ic_facebook" />
 
         <Button
             android:id="@+id/btn_reset_password"

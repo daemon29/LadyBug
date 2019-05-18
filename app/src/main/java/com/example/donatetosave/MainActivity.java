@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private TextView name;
     private TextView detail;
     private ImageView profile_pic;
-
+    private FirebaseUser currentuser;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,11 +71,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
         mFunction=FirebaseFunctions.getInstance("asia-northeast1");
         mStorage=FirebaseStorage.getInstance("gs://donatetosave-2fec5");
-        FirebaseUser currentuser=FirebaseAuth.getInstance().getCurrentUser();
-        final String userid = currentuser.getUid();
+        currentuser=FirebaseAuth.getInstance().getCurrentUser();
 
+        DrawerLayout drawer =  findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+        if(savedInstanceState==null){
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new HomeFragment()).commit();
+            navigationView.setCheckedItem(R.id.nav_home);
+        }
+
+        final String userid = currentuser.getUid();
+        Toast.makeText(this, userid, Toast.LENGTH_SHORT).show();
         FloatingActionButton fab =  findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -116,14 +130,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
 
         });
-        DrawerLayout drawer =  findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
 
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+
+
         name = navigationView.getHeaderView(0).findViewById(R.id.name);
         detail = navigationView.getHeaderView(0).findViewById(R.id.detail);
         profile_pic = navigationView.getHeaderView(0).findViewById(R.id.profile_pic);
@@ -270,11 +279,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (id == R.id.nav_home) {
             // Handle the camera action
         } else if (id == R.id.nav_organization) {
-
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new MapFragment()).commit();
         } else if (id == R.id.nav_map) {
-
-        } else if (id == R.id.nav_manage) {
-
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new MapFragment()).commit();
+        } else if (id == R.id.nav_import) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new MapFragment()).commit();
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {
