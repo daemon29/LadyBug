@@ -54,6 +54,8 @@
     <string name="btn_link_to_register">Not a member? Get registered in Donate2Save now!</string>
     <string name="btn_link_to_login">Already registered. Login Me!</string>
     <string name="title_activity_reset_password">ResetPasswordActivity</string>
+    <string name="address">Address</string>
+
 
     <string name="btn_forgot_password">Forgot your password?</string>
     <string name="btn_reset_password">Reset Password</string>
@@ -94,11 +96,12 @@
     <string name="tools">Tools</string>
     <string name="setting">Setting</string>
     <string name="sign_out">Sign Out</string>
-    <string name="import_description">Descripton of the item</string>
+    <string name="import_description">Description of the item</string>
     <string name="import_upload">Upload</string>
     <string name="import_photo">Photo</string>
     <string name="import_expire">Time expire of the item (days)</string>
     <string name="import_tag">Type of item</string>
     <string name="import_pickup">Pick up address (Optional)</string>
+    <string name="import_contact">Contact number (Optional)</string>
 
 </resources>

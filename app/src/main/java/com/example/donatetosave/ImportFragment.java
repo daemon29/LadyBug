@@ -2,7 +2,6 @@ package com.example.donatetosave;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -16,11 +15,14 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.functions.FirebaseFunctions;
 import com.google.firebase.functions.HttpsCallableResult;
@@ -33,6 +35,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import static android.view.View.GONE;
+
 public class ImportFragment extends Fragment {
     private Button Upload,Photo,Submit;
     private ImageView Image;
@@ -41,6 +45,7 @@ public class ImportFragment extends Fragment {
     private StorageReference storageRef;
     private FirebaseStorage mStorage;
     private FirebaseFunctions mFunction;
+    private ProgressBar progressBar;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -54,6 +59,7 @@ public class ImportFragment extends Fragment {
         Contact=fragment.findViewById(R.id.import_contact);
         Expire=fragment.findViewById(R.id.import_expire);
         Tag=fragment.findViewById(R.id.import_tag);
+        progressBar=fragment.findViewById(R.id.import_progress);
 
         mFunction= FirebaseFunctions.getInstance("asia-northeast1");
         mStorage=FirebaseStorage.getInstance("gs://donatetosave-2fec5");
@@ -88,13 +94,16 @@ public class ImportFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         Bitmap imageBitmap=null;
+        if (data==null) return;
         if(requestCode==1){
-            imageBitmap=(Bitmap)data.getExtras().get("data");}
+            imageBitmap=(Bitmap)data.getExtras().get("data");
+        }
         else
         if(requestCode==0){
             try{
                 Uri selectedImage = data.getData();
-                imageBitmap=MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), selectedImage);}
+                imageBitmap=MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), selectedImage);
+            }
             catch (IOException e){
                 //catch cho vui thoi đéo biết handle sao cả
             }
@@ -102,18 +111,22 @@ public class ImportFragment extends Fragment {
         Image.setImageBitmap(imageBitmap);
         Image.setDrawingCacheEnabled(true);
         Image.buildDrawingCache();
+
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         final byte[] file = baos.toByteArray();
         final String filename = System.currentTimeMillis()+"image.jpg";
+
         Submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                progressBar.setVisibility(View.VISIBLE);
                 storageRef= mStorage.getReference(filename);
                 UploadTask uploadTask = storageRef.putBytes(file);
                 uploadTask.addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
+                        progressBar.setVisibility(GONE);
                         Toast.makeText(getActivity(),"Fail upload file",Toast.LENGTH_LONG).show();
                     }
                 }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -123,22 +136,18 @@ public class ImportFragment extends Fragment {
                             @Override
                             public void onSuccess(Uri uri) {
                                 Map<String,Object> data = new HashMap<>();
-                                data.put("description",Description.getText().toString());
                                 data.put("address",Address.getText().toString());
                                 data.put("contact",Contact.getText().toString());
-                                data.put("expire",Integer.parseInt(Expire.getSelectedItem().toString()));
+                                data.put("description",Description.getText().toString());
+                                data.put("expire",Expire.getSelectedItem().toString());
                                 data.put("tag",Tag.getSelectedItem().toString());
                                 data.put("url",uri.toString());
                                 data.put("uid",FirebaseAuth.getInstance().getCurrentUser().getUid());
-                                mFunction.getHttpsCallable("submit").call(data).addOnSuccessListener(new OnSuccessListener<HttpsCallableResult>() {
+                                mFunction.getHttpsCallable("submit").call(data).addOnCompleteListener(new OnCompleteListener<HttpsCallableResult>() {
                                     @Override
-                                    public void onSuccess(HttpsCallableResult httpsCallableResult) {
-                                        Toast.makeText(getActivity(),"Success upload file",Toast.LENGTH_LONG).show();
-                                    }
-                                }).addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        Toast.makeText(getActivity(),"Fail upload file",Toast.LENGTH_LONG).show();
+                                    public void onComplete(@NonNull Task<HttpsCallableResult> task) {
+                                        Toast.makeText(getActivity(),"Successfully upload your item",Toast.LENGTH_LONG).show();
+                                        progressBar.setVisibility(GONE);
                                     }
                                 });
                             }

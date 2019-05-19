@@ -2,8 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    >
-
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -13,122 +12,77 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"></android.support.v7.widget.Toolbar>
-
     </android.support.design.widget.AppBarLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:padding="@dimen/activity_horizontal_margin">
-        <ImageView
-            android:id="@+id/import_image"
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/setting_image"
             android:layout_width="@dimen/logo_w_h"
             android:layout_height="@dimen/logo_w_h"
+            android:src="@drawable/default_image"
+            android:clickable="true"
+            android:focusable="true"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="100dp"
+            app:civ_border_width="2dp"
+            app:civ_border_color="#FF000000"
             android:contentDescription="@string/description"/>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="20dp"
-        android:gravity="center">
-        <Button
-            android:id="@+id/import_upload"
-            android:layout_width="100dp"
-            android:layout_height="50dp"
-            android:background="@color/colorAccent"
-            android:text="@string/import_upload"
-            android:textSize="20sp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/or"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:textColor="@color/colorAccent"/>
-        <Button
-            android:id="@+id/import_photo"
-            android:layout_width="100dp"
-            android:layout_height="50dp"
-            android:layout_gravity="center_horizontal"
-            android:background="@color/colorAccent"
-            android:text="@string/import_photo"
-            android:textSize="20sp"/>
-    </LinearLayout>
         <EditText
-            android:id="@+id/import_detail"
+            android:id="@+id/setting_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/import_description"
+            android:hint="Your full name"
+            android:maxLines="1"
+            android:inputType="textPersonName"
+            android:layout_marginTop="20dp"
+            android:singleLine="true"
+            android:textColor="@android:color/black"
+            />
+        <EditText
+            android:id="@+id/setting_detail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Short bio about yourself"
             android:maxLines="1"
             android:layout_marginTop="16dp"
             android:singleLine="true"
             android:textColor="@android:color/black"
             />
         <EditText
-            android:id="@+id/import_address"
+            android:id="@+id/setting_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:focusableInTouchMode="true"
-            android:hint="@string/import_pickup"
+            android:hint="Your address (We protect those secret details)"
             android:imeOptions="actionUnspecified"
             android:maxLines="1"
             android:layout_marginTop="16dp"
             android:singleLine="true"
             android:textColor="@android:color/black" />
         <EditText
-            android:id="@+id/import_contact"
+            android:id="@+id/setting_contact"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:focusableInTouchMode="true"
-            android:hint="@string/import_contact"
+            android:hint="Your phone number (We protect those secret details)"
             android:imeOptions="actionUnspecified"
+            android:inputType="phone"
             android:maxLines="1"
             android:layout_marginTop="16dp"
             android:singleLine="true"
             android:textColor="@android:color/black" />
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/import_expire"/>
-            <Spinner
-                android:id="@+id/import_expire"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:spinnerMode="dialog"
-                />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/import_tag"/>
-            <Spinner
-                android:id="@+id/import_tag"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:spinnerMode="dialog"
-                />
-        </LinearLayout>
         <Button
-            android:id="@+id/import_submit"
+            android:id="@+id/setting_update"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:background="@color/submit"
-            android:text="Submit to Donate2Save"
+            android:text="Update Your Profile"
             android:textSize="20sp"/>
         <ProgressBar
             android:id="@+id/import_progress"
@@ -138,5 +92,4 @@
             android:layout_marginTop="20dp"
             android:visibility="gone" />
     </LinearLayout>
-
 </RelativeLayout>

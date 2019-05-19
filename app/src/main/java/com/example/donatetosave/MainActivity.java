@@ -151,7 +151,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 name.setText(documentSnapshot.getString("name"));
-                detail.setText(documentSnapshot.getString("organization")+"-"+documentSnapshot.getString("email"));
+                detail.setText(documentSnapshot.getString("bio"));
                 Glide.with(getApplicationContext()).load(documentSnapshot.getString("image_url")).into(profile_pic);
             }
         }).addOnFailureListener(new OnFailureListener() {

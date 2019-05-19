@@ -98,7 +98,6 @@ public class LoginActivity extends Activity {
                 }
 
                 progressBar.setVisibility(View.VISIBLE);
-
                 auth.signInWithEmailAndPassword(email, password)
                         .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                             @Override
