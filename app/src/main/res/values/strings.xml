@@ -7,11 +7,34 @@
     <string name="example_title">Example apple banana</string>
     <string name="description">des</string>
     <string name="auto_fill_hint">Fill something</string>
-    <integer-array name="extend">
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-    </integer-array>
+    <array name="expire">
+        <item>"1"</item>
+        <item>"2"</item>
+        <item>"3"</item>
+        <item>"4"</item>
+        <item>"5"</item>
+        <item>"6"</item>
+        <item>"7"</item>
+        <item>"8"</item>
+        <item>"9"</item>
+        <item>"10"</item>
+        <item>"11"</item>
+        <item>"12"</item>
+        <item>"13"</item>
+        <item>"14"</item>
+        <item>"15"</item>
+        <item>"16"</item>
+        <item>"17"</item>
+        <item>"18"</item>
+        <item>"19"</item>
+        <item>"20"</item>
+    </array>
+    <string-array name="tag">
+        <item>Food</item>
+        <item>Plastic</item>
+        <item>Household</item>
+        <item>Others</item>
+    </string-array>
     <string name="upload_btn">Upload</string>
     <string name="action_sign_in_short">Register</string>
     <string name="email">Email</string>
@@ -53,7 +76,7 @@
 
     <string name="full_name">Full Name</string>
     <string name="details">Thông tin ngắn của bạn (tùy chọn)</string>
-    <string name="or">or</string>
+    <string name="or">OR</string>
     <string name="facebook">Continue with Facebook</string>
     <string name="google">Login with Google+</string>
 
@@ -71,6 +94,11 @@
     <string name="tools">Tools</string>
     <string name="setting">Setting</string>
     <string name="sign_out">Sign Out</string>
-
+    <string name="import_description">Descripton of the item</string>
+    <string name="import_upload">Upload</string>
+    <string name="import_photo">Photo</string>
+    <string name="import_expire">Time expire of the item (days)</string>
+    <string name="import_tag">Type of item</string>
+    <string name="import_pickup">Pick up address (Optional)</string>
 
 </resources>

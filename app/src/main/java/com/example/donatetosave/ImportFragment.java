@@ -1,17 +1,151 @@
 package com.example.donatetosave;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.Spinner;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.functions.FirebaseFunctions;
+import com.google.firebase.functions.HttpsCallableResult;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ImportFragment extends Fragment {
+    private Button Upload,Photo,Submit;
+    private ImageView Image;
+    private EditText Description,Address,Contact;
+    private Spinner Expire,Tag;
+    private StorageReference storageRef;
+    private FirebaseStorage mStorage;
+    private FirebaseFunctions mFunction;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_import,container,false);
+        View fragment = inflater.inflate(R.layout.fragment_import, container, false);
+        Upload=fragment.findViewById(R.id.import_upload);
+        Photo=fragment.findViewById(R.id.import_photo);
+        Submit=fragment.findViewById(R.id.import_submit);
+        Image=fragment.findViewById(R.id.import_image);
+        Description=fragment.findViewById(R.id.import_detail);
+        Address=fragment.findViewById(R.id.import_address);
+        Contact=fragment.findViewById(R.id.import_contact);
+        Expire=fragment.findViewById(R.id.import_expire);
+        Tag=fragment.findViewById(R.id.import_tag);
+
+        mFunction= FirebaseFunctions.getInstance("asia-northeast1");
+        mStorage=FirebaseStorage.getInstance("gs://donatetosave-2fec5");
+
+        ArrayAdapter<CharSequence> adapter_expire = ArrayAdapter.createFromResource(this.getActivity(),R.array.expire, android.R.layout.simple_spinner_item);
+        adapter_expire.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        Expire.setAdapter(adapter_expire);
+
+        ArrayAdapter<CharSequence> adapter_tag = ArrayAdapter.createFromResource(this.getActivity(),R.array.tag, android.R.layout.simple_spinner_item);
+        adapter_tag.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        Tag.setAdapter(adapter_tag);
+
+        Upload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+                startActivityForResult(intent,0);
+            }
+        });
+        Photo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(intent,1);
+            }
+        });
+
+        return fragment;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Bitmap imageBitmap=null;
+        if(requestCode==1){
+            imageBitmap=(Bitmap)data.getExtras().get("data");}
+        else
+        if(requestCode==0){
+            try{
+                Uri selectedImage = data.getData();
+                imageBitmap=MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), selectedImage);}
+            catch (IOException e){
+                //catch cho vui thoi đéo biết handle sao cả
+            }
+        }
+        Image.setImageBitmap(imageBitmap);
+        Image.setDrawingCacheEnabled(true);
+        Image.buildDrawingCache();
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        final byte[] file = baos.toByteArray();
+        final String filename = System.currentTimeMillis()+"image.jpg";
+        Submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                storageRef= mStorage.getReference(filename);
+                UploadTask uploadTask = storageRef.putBytes(file);
+                uploadTask.addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getActivity(),"Fail upload file",Toast.LENGTH_LONG).show();
+                    }
+                }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        storageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                Map<String,Object> data = new HashMap<>();
+                                data.put("description",Description.getText().toString());
+                                data.put("address",Address.getText().toString());
+                                data.put("contact",Contact.getText().toString());
+                                data.put("expire",Integer.parseInt(Expire.getSelectedItem().toString()));
+                                data.put("tag",Tag.getSelectedItem().toString());
+                                data.put("url",uri.toString());
+                                data.put("uid",FirebaseAuth.getInstance().getCurrentUser().getUid());
+                                mFunction.getHttpsCallable("submit").call(data).addOnSuccessListener(new OnSuccessListener<HttpsCallableResult>() {
+                                    @Override
+                                    public void onSuccess(HttpsCallableResult httpsCallableResult) {
+                                        Toast.makeText(getActivity(),"Success upload file",Toast.LENGTH_LONG).show();
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Toast.makeText(getActivity(),"Fail upload file",Toast.LENGTH_LONG).show();
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
+            }
+        });
     }
 }
