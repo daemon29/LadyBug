@@ -77,11 +77,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
             }
-
         });
-
         name = navigationView.getHeaderView(0).findViewById(R.id.name);
         detail = navigationView.getHeaderView(0).findViewById(R.id.detail);
         profile_pic = navigationView.getHeaderView(0).findViewById(R.id.profile_pic);
@@ -126,7 +123,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
 
         if (id == R.id.nav_home) {
-            // Handle the camera action
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new HomeFragment()).commit();
         } else if (id == R.id.nav_organization) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new OrganizationFragment()).commit();
         } else if (id == R.id.nav_map) {

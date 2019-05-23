@@ -104,5 +104,6 @@
     <string name="import_tag">Type of item</string>
     <string name="import_pickup">Pick up address (Optional)</string>
     <string name="import_contact">Contact number (Optional)</string>
+    <string name="submit_import">Submit to Donate2Save</string>
 
 </resources>
