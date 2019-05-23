@@ -9,6 +9,7 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,7 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -90,6 +92,10 @@ public class ImportFragment extends Fragment {
         Submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(((BitmapDrawable)Image.getDrawable()).getBitmap()==null){
+                    Toast.makeText(getActivity(), "File must contain image", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 Bitmap imageBitmap=((BitmapDrawable)Image.getDrawable()).getBitmap();
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
@@ -119,11 +125,20 @@ public class ImportFragment extends Fragment {
                                 data.put("tag",Tag.getSelectedItem().toString());
                                 data.put("url",uri.toString());
                                 data.put("uid",FirebaseAuth.getInstance().getCurrentUser().getUid());
-                                mFunction.getHttpsCallable("submit").call(data).addOnCompleteListener(new OnCompleteListener<HttpsCallableResult>() {
+//                                mFunction.getHttpsCallable("submit").call(data).addOnCompleteListener(new OnCompleteListener<HttpsCallableResult>() {
+//                                    @Override
+//                                    public void onComplete(@NonNull Task<HttpsCallableResult> task) {
+//                                        Toast.makeText(getActivity(), "", Toast.LENGTH_SHORT).show();
+//                                        progressBar.setVisibility(GONE);
+//                                    }
+//                                });
+                                 mFunction.getHttpsCallable("submit").call(data).continueWith(new Continuation<HttpsCallableResult, String>() {
                                     @Override
-                                    public void onComplete(@NonNull Task<HttpsCallableResult> task) {
-                                        Toast.makeText(getActivity(),"Successfully upload your item",Toast.LENGTH_LONG).show();
+                                    public String then(@NonNull Task<HttpsCallableResult> task) throws Exception {
+                                        String result = (String) task.getResult().getData();
+                                        Log.d("IMPORT",result);
                                         progressBar.setVisibility(GONE);
+                                        return result;
                                     }
                                 });
                             }
