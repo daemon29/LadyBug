@@ -2,6 +2,7 @@ package com.example.donatetosave;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -54,7 +55,7 @@ public class SettingFragment extends Fragment {
         address=fragment.findViewById(R.id.setting_address);
         contact=fragment.findViewById(R.id.setting_contact);
         progressBar=fragment.findViewById(R.id.import_progress);
-
+        update=fragment.findViewById(R.id.setting_update);
         mFunction = FirebaseFunctions.getInstance("asia-northeast1");
         mStorage = FirebaseStorage.getInstance("gs://donatetosave-2fec5");
 
@@ -65,7 +66,51 @@ public class SettingFragment extends Fragment {
                 startActivityForResult(intent,3);
             }
         });
+
+        update.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bitmap imageBitmap=((BitmapDrawable)imageView.getDrawable()).getBitmap();
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                final byte[] file = baos.toByteArray();
+                final String filename = System.currentTimeMillis()+"image.jpg";
+                progressBar.setVisibility(View.VISIBLE);
+                storageRef= mStorage.getReference().child("User/"+filename);
+                UploadTask uploadTask = storageRef.putBytes(file);
+                uploadTask.addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        progressBar.setVisibility(GONE);
+                        Toast.makeText(getActivity(),"Fail upload file",Toast.LENGTH_LONG).show();
+                    }
+                }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        storageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                Map<String,Object> data = new HashMap<>();
+                                data.put("name",fullName.getText().toString());
+                                data.put("bio",bio.getText().toString());
+                                data.put("address",address.getText().toString());
+                                data.put("url",uri.toString());
+                                data.put("uid", FirebaseAuth.getInstance().getCurrentUser().getUid());
+                                mFunction.getHttpsCallable("setProfileManually").call(data).addOnCompleteListener(new OnCompleteListener<HttpsCallableResult>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<HttpsCallableResult> task) {
+                                        Toast.makeText(getActivity(),"Successfully update your profile",Toast.LENGTH_LONG).show();
+                                        progressBar.setVisibility(GONE);
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
+            }
+        });
         return fragment;
+
     }
 
     @Override
@@ -84,48 +129,6 @@ public class SettingFragment extends Fragment {
             imageView.setImageBitmap(imageBitmap);
             imageView.setDrawingCacheEnabled(true);
             imageView.buildDrawingCache();
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-            final byte[] file = baos.toByteArray();
-            final String filename = System.currentTimeMillis()+"image.jpg";
-
-            update.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    progressBar.setVisibility(View.VISIBLE);
-                    storageRef= mStorage.getReference(filename);
-                    UploadTask uploadTask = storageRef.putBytes(file);
-                    uploadTask.addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            progressBar.setVisibility(GONE);
-                            Toast.makeText(getActivity(),"Fail upload file",Toast.LENGTH_LONG).show();
-                        }
-                    }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            storageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                @Override
-                                public void onSuccess(Uri uri) {
-                                    Map<String,Object> data = new HashMap<>();
-                                    data.put("name",fullName.getText().toString());
-                                    data.put("bio",bio.getText().toString());
-                                    data.put("address",address.getText().toString());
-                                    data.put("url",uri.toString());
-                                    data.put("uid", FirebaseAuth.getInstance().getCurrentUser().getUid());
-                                    mFunction.getHttpsCallable("submit").call(data).addOnCompleteListener(new OnCompleteListener<HttpsCallableResult>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<HttpsCallableResult> task) {
-                                            Toast.makeText(getActivity(),"Successfully upload your item",Toast.LENGTH_LONG).show();
-                                            progressBar.setVisibility(GONE);
-                                        }
-                                    });
-                                }
-                            });
-                        }
-                    });
-                }
-            });
     }
     }
 }

@@ -10,36 +10,30 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
-public class OrganizationFragment extends Fragment {
+public class AchievementFragment extends Fragment {
     private FirebaseFirestore db;
-    private DocumentReference docRef;
-    private CollectionReference memref;
-    private MemberAdapter adapter;
-    public String a=" sadasd";
+    private CollectionReference achievementRef;
+    private AchievementAdapter adapter;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View fragment = inflater.inflate(R.layout.fragment_organization, container, false);
+        View fragment = inflater.inflate(R.layout.fragment_achievement, container, false);
         db=FirebaseFirestore.getInstance();
-        memref=db.collection("Organization").document("NVrHnlDX2k0RAj83fPqe").collection("Member");
-        Query query =memref.orderBy("role", Query.Direction.ASCENDING);
-        FirestoreRecyclerOptions<Member> options= new FirestoreRecyclerOptions.Builder<Member>().setQuery(query,Member.class).build();
-        adapter = new MemberAdapter(options);
-        RecyclerView recyclerView = fragment.findViewById(R.id.member_recyclerview);
+        achievementRef=db.collection("User").document(FirebaseAuth.getInstance().getCurrentUser().getUid()).collection("Achievement");
+        Query query = achievementRef.orderBy("count",Query.Direction.DESCENDING);
+        FirestoreRecyclerOptions<Achievement> options = new FirestoreRecyclerOptions.Builder<Achievement>().setQuery(query,Achievement.class).build();
+        adapter = new AchievementAdapter(options);
+        RecyclerView recyclerView = fragment.findViewById(R.id.achievement_recyclerview);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(adapter);
-        adapter.startListening();
         return fragment;
     }
 

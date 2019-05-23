@@ -86,6 +86,7 @@
     <string name="todo">TODO</string>
 
     <string name="home">Home</string>
+    <string name="achievement">Achievement</string>
     <string name="Import">Import</string>
     <string name="notification">Notification</string>
     <string name="organization">My Organization</string>

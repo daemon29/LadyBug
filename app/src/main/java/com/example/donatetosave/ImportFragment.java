@@ -2,6 +2,7 @@ package com.example.donatetosave;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -86,40 +87,15 @@ public class ImportFragment extends Fragment {
                 startActivityForResult(intent,1);
             }
         });
-
-        return fragment;
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        Bitmap imageBitmap=null;
-        if (data==null) return;
-        if(requestCode==1){
-            imageBitmap=(Bitmap)data.getExtras().get("data");
-        }
-        else
-        if(requestCode==0){
-            try{
-                Uri selectedImage = data.getData();
-                imageBitmap=MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), selectedImage);
-            }
-            catch (IOException e){
-                //catch cho vui thoi đéo biết handle sao cả
-            }
-        }
-        Image.setImageBitmap(imageBitmap);
-        Image.setDrawingCacheEnabled(true);
-        Image.buildDrawingCache();
-
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-        final byte[] file = baos.toByteArray();
-        final String filename = System.currentTimeMillis()+"image.jpg";
-
         Submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Bitmap imageBitmap=((BitmapDrawable)Image.getDrawable()).getBitmap();
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                final byte[] file = baos.toByteArray();
+                final String filename = System.currentTimeMillis()+"image.jpg";
+
                 progressBar.setVisibility(View.VISIBLE);
                 storageRef= mStorage.getReference(filename);
                 UploadTask uploadTask = storageRef.putBytes(file);
@@ -156,5 +132,33 @@ public class ImportFragment extends Fragment {
                 });
             }
         });
+        return fragment;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Bitmap imageBitmap=null;
+        if (data==null) return;
+        if(requestCode==1){
+            imageBitmap=(Bitmap)data.getExtras().get("data");
+        }
+        else
+        if(requestCode==0){
+            try{
+                Uri selectedImage = data.getData();
+                imageBitmap=MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), selectedImage);
+            }
+            catch (IOException e){
+                //catch cho vui thoi đéo biết handle sao cả
+            }
+        }
+        Image.setImageBitmap(imageBitmap);
+        Image.setDrawingCacheEnabled(true);
+        Image.buildDrawingCache();
+
+
+
+
     }
 }

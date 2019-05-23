@@ -7,9 +7,14 @@
     <color name="white">#ffffff</color>
     <color name="foodbackground">#FCAB10</color>
     <color name="foodbackgroundTint">#FCAB10</color>
-    <color name="eventbackground">#FBFF12</color>
     <color name="eventbackgroundTint">#FBFF12</color>
     <color name="trashbackground">#00FFC5</color>
     <color name="submit">#08A045</color>
     <color name="facebook">#3b5998</color>
+    <color name="Achievement">#803b5998</color>
+    <color name="Achievement_Done">#9682E0AA</color>
+
+    <color name="member_admin">#96FBFF12</color>
+    <color name="member">#969900FF</color>
+    <color name="member_pending">#806666CC</color>
 </resources>

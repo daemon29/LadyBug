@@ -137,9 +137,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         } else if (id == R.id.nav_send) {
 
+        }else if (id == R.id.nav_achievement) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new AchievementFragment()).commit();
         } else if (id == R.id.nav_signout) {
             FirebaseAuth.getInstance().signOut();
             startActivity(new Intent(MainActivity.this, LoginActivity.class));
+        }else if (id == R.id.nav_setting) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new SettingFragment()).commit();
         }
         DrawerLayout drawer =  findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
