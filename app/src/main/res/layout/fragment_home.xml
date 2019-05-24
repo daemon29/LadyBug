@@ -28,7 +28,6 @@
         android:id="@+id/home_background"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="4dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -38,13 +37,17 @@
         android:id="@+id/home_image"
         android:layout_width="125dp"
         android:layout_height="125dp"
-        app:civ_border_color="@color/white"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         android:src="@drawable/default_image"
+        app:civ_border_color="@color/white"
         app:civ_border_width="2dp"
         app:civ_circle_background_color="@color/fui_bgGitHub"
         app:layout_constraintBottom_toBottomOf="@+id/home_background"
-        app:layout_constraintEnd_toEndOf="@+id/home_background"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/home_background" />
 
     <TextView
         android:id="@+id/home_name"
@@ -55,7 +58,7 @@
         android:textSize="25sp"
         android:text="ASDASDSAD"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/home_background" />
+        app:layout_constraintTop_toBottomOf="@+id/home_image" />
     <TextView
         android:id="@+id/home_bio"
         android:layout_width="wrap_content"
