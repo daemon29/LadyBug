@@ -46,10 +46,7 @@ public class LoginActivity extends Activity {
                 .requestEmail()
                 .build();
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-
-
         // set the view now
-
         setContentView(R.layout.activity_login);
         inputEmail =  findViewById(R.id.input_email);
         inputPassword =  findViewById(R.id.input_password);
