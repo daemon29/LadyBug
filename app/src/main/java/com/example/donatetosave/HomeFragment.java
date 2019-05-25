@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,10 +38,10 @@ public class HomeFragment extends Fragment {
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 Glide.with(fragment.getContext()).load(documentSnapshot.getString("image_url")).into(Image);
                 Glide.with(fragment.getContext()).load(documentSnapshot.getString("back_ground")).into(BackGround);
-                Name.setText("Name: "+documentSnapshot.getString("name"));
-                Bio.setText(documentSnapshot.getString("bio"));
-                Email.setText("Email: "+documentSnapshot.getString("email"));
-                WorkAt.setText("Work at "+documentSnapshot.getString("work_at"));
+                Name.setText(documentSnapshot.getString("name"));
+                Bio.setText(Html.fromHtml("Bio: "+"<b>"+documentSnapshot.getString("bio")+"</b>"));
+                Email.setText(Html.fromHtml("Email: "+"<b>"+documentSnapshot.getString("email")+"</b>"));
+                WorkAt.setText(Html.fromHtml("Work at: "+"<b>"+documentSnapshot.getString("work_at")+"</b>"));
             }
         });
 
