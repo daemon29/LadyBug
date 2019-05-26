@@ -47,6 +47,34 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/home_background" />
 
+    <Button
+        android:id="@+id/home_edit_image"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/ic_photo_camera_black_24dp"
+        app:layout_constraintBottom_toBottomOf="@+id/home_image"
+        app:layout_constraintEnd_toEndOf="@+id/home_image" />
+
+    <Button
+        android:id="@+id/home_edit_background"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/ic_photo_camera_black_24dp"
+        app:layout_constraintBottom_toBottomOf="@+id/home_background"
+        app:layout_constraintEnd_toEndOf="@+id/home_background" />
+    <Button
+        android:id="@+id/home_edit_name"
+        android:layout_width="33dp"
+        android:layout_height="33dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/ic_edit"
+        app:layout_constraintStart_toEndOf="@+id/home_name"
+        app:layout_constraintTop_toBottomOf="@+id/home_image" />
     <TextView
         android:id="@+id/home_name"
         android:layout_width="wrap_content"
@@ -59,15 +87,26 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/home_image" />
+
+    <Button
+        android:id="@+id/home_edit_bio"
+        android:layout_width="27dp"
+        android:layout_height="27dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/ic_edit"
+        app:layout_constraintStart_toEndOf="@+id/home_bio"
+        app:layout_constraintTop_toBottomOf="@+id/home_name" />
     <TextView
         android:id="@+id/home_bio"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="10dp"
-        android:textSize="18sp"
+        android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/home_name" />
+
 
     <TextView
         android:id="@+id/home_email"
@@ -75,9 +114,20 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="10dp"
-        android:textSize="18sp"
+        android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/home_bio" />
+
+    <Button
+        android:id="@+id/home_edit_workat"
+        android:layout_width="24dp"
+        android:layout_height="27dp"
+        android:layout_marginTop="10dp"
+
+        android:layout_marginStart="8dp"
+        android:background="@drawable/ic_edit"
+        app:layout_constraintStart_toEndOf="@+id/home_workat"
+        app:layout_constraintTop_toBottomOf="@+id/home_email" />
     <TextView
         android:id="@+id/home_workat"
         android:layout_width="wrap_content"
