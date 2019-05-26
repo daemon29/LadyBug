@@ -7,7 +7,6 @@
     <EditText
         android:id="@+id/fragment_home_edit"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Enter your new information"/>
+        android:layout_height="wrap_content"/>
 
 </RelativeLayout>
