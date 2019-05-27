@@ -12,5 +12,4 @@
         android:title="@string/action_info"
         android:icon="@drawable/ic_about_us"
         app:showAsAction="always" />
-
 </menu>

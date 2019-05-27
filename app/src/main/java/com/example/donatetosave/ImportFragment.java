@@ -22,11 +22,14 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.functions.FirebaseFunctions;
+import com.google.firebase.functions.FirebaseFunctionsException;
 import com.google.firebase.functions.HttpsCallableResult;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -116,30 +119,20 @@ public class ImportFragment extends Fragment {
                         storageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                             @Override
                             public void onSuccess(Uri uri) {
-                                Map<String,Object> data = new HashMap<>();
-                                data.put("address",Address.getText().toString());
-                                data.put("contact",Contact.getText().toString());
-                                data.put("description",Description.getText().toString());
-                                data.put("expire",Expire.getSelectedItem().toString());
-                                data.put("tag",Tag.getSelectedItem().toString());
-                                data.put("url",uri.toString());
-                                data.put("uid",FirebaseAuth.getInstance().getCurrentUser().getUid());
-//                                mFunction.getHttpsCallable("submit").call(data).addOnCompleteListener(new OnCompleteListener<HttpsCallableResult>() {
-//                                    @Override
-//                                    public void onComplete(@NonNull Task<HttpsCallableResult> task) {
-//                                        Toast.makeText(getActivity(), "", Toast.LENGTH_SHORT).show();
-//                                        progressBar.setVisibility(GONE);
-//                                    }
-//                                });
-                                 mFunction.getHttpsCallable("submit").call(data).continueWith(new Continuation<HttpsCallableResult, String>() {
-                                    @Override
-                                    public String then(@NonNull Task<HttpsCallableResult> task) throws Exception {
-                                        String result = (String) task.getResult().getData();
-                                        Log.d("IMPORT",result);
-                                        progressBar.setVisibility(GONE);
-                                        return result;
-                                    }
-                                });
+                                submit(Address.getText().toString(),Contact.getText().toString(),Description.getText().toString(),Expire.getSelectedItem().toString(),Tag.getSelectedItem().toString(),uri.toString(),FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                         .addOnCompleteListener(new OnCompleteListener<String>() {
+                                     @Override
+                                     public void onComplete(@NonNull Task<String> task) {
+                                         if(!task.isSuccessful()){
+                                             Exception e = task.getException();
+                                             if(e instanceof FirebaseException){
+                                                 FirebaseFunctionsException ffe = (FirebaseFunctionsException) e;
+                                                 FirebaseFunctionsException.Code code = ffe.getCode();
+                                                 Object details = ffe.getDetails();
+                                             }
+                                         }
+                                     }
+                                 });
                             }
                         });
                     }
@@ -170,9 +163,22 @@ public class ImportFragment extends Fragment {
         Image.setImageBitmap(imageBitmap);
         Image.setDrawingCacheEnabled(true);
         Image.buildDrawingCache();
-
-
-
-
+    }
+    private Task<String> submit(String address,String contact,String description,String expire,String tag,String url,String uid){
+        Map<String,Object> data = new HashMap<>();
+        data.put("address",address);
+        data.put("contact",contact);
+        data.put("description",description);
+        data.put("expire",expire);
+        data.put("tag",tag);
+        data.put("url",url);
+        data.put("uid",uid);
+        return mFunction.getHttpsCallable("submit").call(data).continueWith(new Continuation<HttpsCallableResult, String>() {
+            @Override
+            public String then(@NonNull Task<HttpsCallableResult> task) throws Exception {
+                String result = (String) task.getResult().getData();
+                return result;
+            }
+        });
     }
 }

@@ -11,10 +11,12 @@ import android.widget.TextView;
 
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.firebase.firestore.DocumentSnapshot;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MemberAdapter extends FirestoreRecyclerAdapter<Member,MemberAdapter.NoteHolder> {
+    private OnItemClickListener listener;
 
     public MemberAdapter(@NonNull FirestoreRecyclerOptions<Member> options) {
         super(options);
@@ -44,6 +46,7 @@ public class MemberAdapter extends FirestoreRecyclerAdapter<Member,MemberAdapter
         private TextView name,role,email;
         private RelativeLayout layout;
         private CircleImageView image;
+
         public NoteHolder(@NonNull View itemView) {
             super(itemView);
             name=itemView.findViewById(R.id.member_name);
@@ -51,6 +54,22 @@ public class MemberAdapter extends FirestoreRecyclerAdapter<Member,MemberAdapter
             email = itemView.findViewById(R.id.member_email);
             image=itemView.findViewById(R.id.member_image);
             layout=itemView.findViewById(R.id.member_layout);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int pos= getAdapterPosition();
+                    if (pos!= RecyclerView.NO_POSITION&& listener!=null){
+                        listener.onItemClick(getSnapshots().getSnapshot(pos),pos);
+                    }
+                }
+            });
         }
+    }
+    public interface OnItemClickListener{
+        void onItemClick(DocumentSnapshot documentSnapshot,int pos);
+
+    }
+    public void setItemClickListener(OnItemClickListener listener){
+        this.listener=listener;
     }
 }

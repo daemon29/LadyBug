@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">Donate2Save</string>
-    <string name="x">X</string>
     <string name="time_extend">Time extend</string>
     <string name="title_name">Name of the product</string>
     <string name="submit">Submit</string>
@@ -35,6 +34,7 @@
         <item>Household</item>
         <item>Others</item>
     </string-array>
+
     <string name="upload_btn">Upload</string>
     <string name="action_sign_in_short">Register</string>
     <string name="email">Email</string>
@@ -97,6 +97,7 @@
     <string name="tools">Tools</string>
     <string name="setting">Setting</string>
     <string name="sign_out">Sign Out</string>
+
     <string name="import_description">Description of the item</string>
     <string name="import_upload">Upload</string>
     <string name="import_photo">Photo</string>
@@ -106,4 +107,5 @@
     <string name="import_contact">Contact number (Optional)</string>
     <string name="submit_import">Submit to Donate2Save</string>
 
+    <string name="member_add">ADD A MEMBER</string>
 </resources>

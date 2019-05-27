@@ -9,10 +9,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
@@ -34,6 +36,16 @@ public class OrganizationFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(adapter);
         adapter.startListening();
+        adapter.setItemClickListener(new MemberAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(DocumentSnapshot documentSnapshot, int pos) {
+                Member member = documentSnapshot.toObject(Member.class);
+                String id = documentSnapshot.getId();
+                String path =documentSnapshot.getReference().getPath();
+                String uid = member.getUid();
+                Toast.makeText(getActivity(), id+path+uid, Toast.LENGTH_SHORT).show();
+            }
+        });
         return fragment;
     }
 

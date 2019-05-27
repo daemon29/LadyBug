@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 
 import android.support.v4.app.Fragment;
 import android.text.Html;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,20 +14,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.functions.FirebaseFunctions;
-import com.google.firebase.functions.HttpsCallableResult;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import static android.view.View.GONE;
 
 public class HomeFragment extends Fragment implements HomeFragmentDialog.HomeFragmentDialogListener, View.OnClickListener {
     private ImageView BackGround, Image;
@@ -112,20 +107,20 @@ public class HomeFragment extends Fragment implements HomeFragmentDialog.HomeFra
     public void applyText(String result,String type) {
         Map<String,Object> data = new HashMap<>();
 
-        if(type=="Name"){
+        if("Name".equals(type)){
             Name.setText(result);
             data.put("root","name");
             data.put("value",Name.getText().toString().trim());
             data.put("uid",FirebaseAuth.getInstance().getCurrentUser().getUid());
             mFunction.getHttpsCallable("setProfileMono").call(data);
         }
-        if(type=="Bio"){ Bio.setText(Html.fromHtml("Bio: "+"<b>"+result+"</b>"));
+        if("Bio".equals(type)){ Bio.setText(Html.fromHtml("Bio: "+"<b>"+result+"</b>"));
             data.put("root","bio");
             data.put("value",Bio.getText().toString().trim());
             data.put("uid",FirebaseAuth.getInstance().getCurrentUser().getUid());
             mFunction.getHttpsCallable("setProfileMono").call(data);
         }
-        if(type=="Work place"){ WorkAt.setText(Html.fromHtml("Work at: "+"<b>"+result+"</b>"));
+        if("Work place".equals(type)){ WorkAt.setText(Html.fromHtml("Work at: "+"<b>"+result+"</b>"));
             data.put("root","work_at");
             data.put("value",WorkAt.getText().toString().trim());
             data.put("uid",FirebaseAuth.getInstance().getCurrentUser().getUid());

@@ -17,4 +17,6 @@
     <color name="member_admin">#96FBFF12</color>
     <color name="member">#969900FF</color>
     <color name="member_pending">#806666CC</color>
+    <color name="member_adding">#8096969B</color>
+
 </resources>

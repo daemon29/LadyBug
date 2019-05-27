@@ -28,4 +28,5 @@
         <activity android:name=".SignUpActivity" />
     </application>
 
+
 </manifest>

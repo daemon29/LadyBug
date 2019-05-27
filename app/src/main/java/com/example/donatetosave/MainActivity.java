@@ -19,6 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import android.widget.ImageView;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 
@@ -41,7 +42,7 @@ import com.bumptech.glide.Glide;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
     FirebaseFunctions mFunction;
     FirebaseStorage mStorage;
-
+    private SearchView searchView;
     private DrawerLayout drawer;
     private TextView name;
     private TextView detail;
@@ -58,6 +59,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mFunction=FirebaseFunctions.getInstance("asia-northeast1");
         mStorage=FirebaseStorage.getInstance("gs://donatetosave-2fec5");
         currentuser=FirebaseAuth.getInstance().getCurrentUser();
+
+        searchView= findViewById(R.id.action_search);
 
         drawer =  findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
