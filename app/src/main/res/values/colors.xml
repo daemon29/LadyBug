@@ -1,14 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
+    <color name="colorPrimary">#4E67EB</color>
+    <color name="colorPrimaryDark">#291D89</color>
+    <color name="colorAccent">#5080FF</color>
     <color name="colorBlue">#36BBEC</color>
     <color name="white">#ffffff</color>
-    <color name="foodbackground">#FCAB10</color>
-    <color name="foodbackgroundTint">#FCAB10</color>
-    <color name="eventbackground">#FBFF12</color>
-    <color name="eventbackgroundTint">#FBFF12</color>
-    <color name="trashbackground">#00FFC5</color>
-    <color name="trachbackgroundTint">#08A045</color>
+
+    <color name="color_navigation_background">#333399</color>
+    <color name="color_navigation_text">#5080FF</color>
+
+    <color name="submit">#FF7149</color>
+    <color name="facebook">#3b5998</color>
+    <color name="Achievement">#804A7AD6</color>
+    <color name="Achievement_Done">#71FCAD</color>
+
+    <color name="member_admin">#96FBFF12</color>
+    <color name="member">#969900FF</color>
+    <color name="member_pending">#806666CC</color>
+    <color name="member_adding">#8096969B</color>
+
 </resources>

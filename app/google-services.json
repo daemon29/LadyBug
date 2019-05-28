@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "756854302331-rnhjfukj1s8bchs68khghthavsetagrq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.donatetosave",
+            "certificate_hash": "9c5b0c915cca7e2b3168b15b44e8c336d6436dcc"
+          }
+        },
+        {
           "client_id": "756854302331-0tgjb230tjavu884p2np8snhbg8chab5.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -25,15 +33,13 @@
         }
       ],
       "services": {
-        "analytics_service": {
-          "status": 1
-        },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
-        },
-        "ads_service": {
-          "status": 2
+          "other_platform_oauth_client": [
+            {
+              "client_id": "756854302331-0tgjb230tjavu884p2np8snhbg8chab5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+<!--<android.support.constraint.ConstraintLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent">-->
+
+    <!--<android.support.design.widget.AppBarLayout-->
+        <!--android:id="@+id/appBarLayout2"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--app:layout_constraintEnd_toEndOf="parent"-->
+        <!--app:layout_constraintStart_toStartOf="parent"-->
+        <!--app:layout_constraintTop_toTopOf="parent">-->
+
+        <!--<android.support.v7.widget.Toolbar-->
+            <!--android:id="@+id/toolbar"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="?attr/actionBarSize"-->
+            <!--android:background="?attr/colorPrimary" />-->
+    <!--</android.support.design.widget.AppBarLayout>-->
+
+    <!--<de.hdodenhof.circleimageview.CircleImageView-->
+        <!--android:id="@+id/setting_image"-->
+        <!--android:layout_width="@dimen/logo_w_h"-->
+        <!--android:layout_height="@dimen/logo_w_h"-->
+        <!--android:layout_gravity="center_horizontal"-->
+        <!--android:layout_marginStart="8dp"-->
+        <!--android:layout_marginEnd="8dp"-->
+        <!--android:layout_marginTop="50dp"-->
+        <!--android:clickable="true"-->
+        <!--android:contentDescription="@string/description"-->
+        <!--android:focusable="true"-->
+        <!--android:src="@drawable/default_image"-->
+        <!--app:civ_border_color="#FF000000"-->
+        <!--app:civ_border_width="2dp"-->
+        <!--app:layout_constraintEnd_toEndOf="parent"-->
+        <!--app:layout_constraintStart_toStartOf="parent"-->
+        <!--app:layout_constraintTop_toBottomOf="@+id/appBarLayout2" />-->
+
+    <!--<EditText-->
+        <!--android:id="@+id/setting_name"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginStart="20dp"-->
+        <!--android:layout_marginTop="20dp"-->
+        <!--android:layout_marginEnd="20dp"-->
+        <!--android:hint="Your full name"-->
+        <!--android:inputType="textPersonName"-->
+        <!--android:maxLines="1"-->
+        <!--android:singleLine="true"-->
+        <!--android:textColor="@android:color/black"-->
+        <!--app:layout_constraintEnd_toEndOf="parent"-->
+        <!--app:layout_constraintStart_toStartOf="parent"-->
+        <!--app:layout_constraintTop_toBottomOf="@+id/setting_image" />-->
+
+    <!--<EditText-->
+        <!--android:id="@+id/setting_detail"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginStart="20dp"-->
+        <!--android:layout_marginTop="20dp"-->
+        <!--android:layout_marginEnd="20dp"-->
+        <!--android:hint="Short bio about yourself"-->
+        <!--android:maxLines="1"-->
+        <!--android:singleLine="true"-->
+        <!--android:textColor="@android:color/black"-->
+        <!--app:layout_constraintEnd_toEndOf="parent"-->
+        <!--app:layout_constraintStart_toStartOf="parent"-->
+        <!--app:layout_constraintTop_toBottomOf="@+id/setting_name" />-->
+
+    <!--<EditText-->
+        <!--android:id="@+id/setting_address"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginStart="20dp"-->
+        <!--android:layout_marginTop="20dp"-->
+        <!--android:layout_marginEnd="20dp"-->
+        <!--android:focusableInTouchMode="true"-->
+        <!--android:hint="Your address (We protect those secret details)"-->
+        <!--android:imeOptions="actionUnspecified"-->
+        <!--android:maxLines="1"-->
+        <!--android:singleLine="true"-->
+        <!--android:textColor="@android:color/black"-->
+        <!--app:layout_constraintEnd_toEndOf="parent"-->
+        <!--app:layout_constraintStart_toStartOf="parent"-->
+        <!--app:layout_constraintTop_toBottomOf="@+id/setting_detail" />-->
+
+    <!--<EditText-->
+        <!--android:id="@+id/setting_contact"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginStart="20dp"-->
+        <!--android:layout_marginTop="20dp"-->
+        <!--android:layout_marginEnd="20dp"-->
+        <!--android:focusableInTouchMode="true"-->
+        <!--android:hint="Your phone number (We protect those secret details)"-->
+        <!--android:imeOptions="actionUnspecified"-->
+        <!--android:inputType="phone"-->
+        <!--android:maxLines="1"-->
+        <!--android:singleLine="true"-->
+        <!--android:textColor="@android:color/black"-->
+        <!--app:layout_constraintEnd_toEndOf="parent"-->
+        <!--app:layout_constraintStart_toStartOf="parent"-->
+        <!--app:layout_constraintTop_toBottomOf="@+id/setting_address" />-->
+
+    <!--<Button-->
+        <!--android:id="@+id/setting_update"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginStart="20dp"-->
+        <!--android:layout_marginTop="10dp"-->
+        <!--android:layout_marginEnd="20dp"-->
+        <!--android:background="@color/submit"-->
+        <!--android:text="Update Your Profile"-->
+        <!--android:textSize="20sp"-->
+        <!--app:layout_constraintEnd_toEndOf="parent"-->
+        <!--app:layout_constraintStart_toStartOf="parent"-->
+        <!--app:layout_constraintTop_toBottomOf="@+id/setting_contact" />-->
+
+    <!--<ProgressBar-->
+        <!--android:id="@+id/import_progress"-->
+        <!--android:layout_width="100dp"-->
+        <!--android:layout_height="100dp"-->
+        <!--android:layout_gravity="center|bottom"-->
+        <!--android:layout_marginStart="8dp"-->
+        <!--android:layout_marginTop="8dp"-->
+        <!--android:layout_marginEnd="8dp"-->
+        <!--android:layout_marginBottom="8dp"-->
+        <!--app:layout_constraintBottom_toBottomOf="parent"-->
+        <!--app:layout_constraintEnd_toEndOf="parent"-->
+        <!--app:layout_constraintStart_toStartOf="parent"-->
+        <!--app:layout_constraintTop_toTopOf="parent"-->
+        <!--android:visibility="gone"/>-->
+
+<!--</android.support.constraint.ConstraintLayout>-->
+</android.support.v4.widget.NestedScrollView>
