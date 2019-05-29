@@ -32,16 +32,13 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import com.google.firebase.functions.FirebaseFunctions;
-import com.google.firebase.storage.FirebaseStorage;
 
 
 import com.bumptech.glide.Glide;
 
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
-    FirebaseFunctions mFunction;
-    FirebaseStorage mStorage;
+    private DocumentReference noteRef;
     private SearchView searchView;
     private DrawerLayout drawer;
     private TextView name;
@@ -56,8 +53,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        mFunction=FirebaseFunctions.getInstance("asia-northeast1");
-        mStorage=FirebaseStorage.getInstance("gs://donatetosave-2fec5");
         currentuser=FirebaseAuth.getInstance().getCurrentUser();
 
         searchView= findViewById(R.id.action_search);
@@ -128,7 +123,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (id == R.id.nav_home) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new HomeFragment()).commit();
         } else if (id == R.id.nav_organization) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new OrganizationFragment()).commit();
+            noteRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                @Override
+                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                   Bundle args = new Bundle();
+                   args.putString("work_id",documentSnapshot.getString("work_for"));
+                   OrganizationFragment fragment= new OrganizationFragment();
+                   fragment.setArguments(args);
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,fragment).commit();
+
+                }
+            });
+
         } else if (id == R.id.nav_map) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new MapFragment()).commit();
         } else if (id == R.id.nav_import) {
@@ -150,7 +156,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
     public void SetProfile(String userid){
-        DocumentReference noteRef = FirebaseFirestore.getInstance().collection("User").document(userid);
+        noteRef = FirebaseFirestore.getInstance().collection("User").document(userid);
         noteRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {

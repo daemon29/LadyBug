@@ -10,6 +10,10 @@
             android:icon="@drawable/ic_menu_camera"
             android:title="@string/Import" />
         <item
+            android:id="@+id/nav_map"
+            android:icon="@drawable/ic_map"
+            android:title="@string/donate_map" />
+        <item
             android:id="@+id/nav_notification"
             android:icon="@drawable/ic_notifications"
             android:title="@string/notification" />
@@ -21,10 +25,6 @@
             android:id="@+id/nav_organization"
             android:icon="@drawable/ic_organization"
             android:title="@string/organization" />
-        <item
-            android:id="@+id/nav_map"
-            android:icon="@drawable/ic_map"
-            android:title="@string/donate_map" />
     </group>
 
     <item android:title="@string/communicate">
