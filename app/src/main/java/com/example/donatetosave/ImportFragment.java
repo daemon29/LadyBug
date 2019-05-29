@@ -177,6 +177,7 @@ public class ImportFragment extends Fragment {
             @Override
             public String then(@NonNull Task<HttpsCallableResult> task) throws Exception {
                 String result = (String) task.getResult().getData();
+                Log.d("TAG",result);
                 return result;
             }
         });
