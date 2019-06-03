@@ -1,4 +1,4 @@
-package com.example.donatetosave;
+package com.example.donatetosave.Class;
 
 public class Notification {
     private int type;

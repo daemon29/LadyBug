@@ -1,4 +1,4 @@
-package com.example.donatetosave;
+package com.example.donatetosave.Fragment;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -10,6 +10,8 @@ import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+
+import com.example.donatetosave.R;
 
 public class HomeFragmentDialog extends AppCompatDialogFragment {
     private EditText text;

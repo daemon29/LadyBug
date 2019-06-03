@@ -23,6 +23,12 @@ import android.widget.SearchView;
 import android.widget.TextView;
 
 
+import com.example.donatetosave.Adapter.SettingFragment;
+import com.example.donatetosave.Fragment.AchievementFragment;
+import com.example.donatetosave.Fragment.HomeFragment;
+import com.example.donatetosave.Fragment.ImportFragment;
+import com.example.donatetosave.Fragment.MapFragment;
+import com.example.donatetosave.Fragment.OrganizationFragment;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 
@@ -108,9 +114,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            return true;
+            Intent i = new Intent(MainActivity.this,FriendActivity.class);
+            startActivity(i);
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -130,8 +136,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                    args.putString("work_id",documentSnapshot.getString("work_for"));
                    OrganizationFragment fragment= new OrganizationFragment();
                    fragment.setArguments(args);
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,fragment).commit();
-
+                   getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,fragment).commit();
                 }
             });
 
