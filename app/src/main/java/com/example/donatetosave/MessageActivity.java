@@ -16,6 +16,7 @@ import com.bumptech.glide.Glide;
 import com.example.donatetosave.Adapter.MessageAdapter;
 import com.example.donatetosave.Class.Chat;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -23,8 +24,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 
@@ -106,7 +105,12 @@ public class MessageActivity extends AppCompatActivity {
         reference.child("Chats").push().setValue(data).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Toast.makeText(getApplicationContext(),"Something wring happen :"+e,Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),"Something wrong happen :"+e,Toast.LENGTH_SHORT).show();
+            }
+        }).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+            Message.getText().clear();
             }
         });
     }
@@ -121,7 +125,7 @@ public class MessageActivity extends AppCompatActivity {
                 for(DataSnapshot snapshot :dataSnapshot.getChildren()){
                     Chat chat = snapshot.getValue(Chat.class);
                     assert chat != null;
-                    if(chat.getReceiver().equals(userid)&& chat.getSender().equals(myid))
+                    if((chat.getReceiver().equals(myid)&& chat.getSender().equals(userid))|| (chat.getReceiver().equals(userid)&& chat.getSender().equals(myid)))
                         mchat.add(chat);
                     messageAdapter= new MessageAdapter(MessageActivity.this,mchat,imageurl);
                     recyclerView.setAdapter(messageAdapter);

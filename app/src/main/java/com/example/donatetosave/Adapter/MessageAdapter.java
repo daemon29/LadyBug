@@ -18,11 +18,12 @@ import com.google.firebase.auth.FirebaseUser;
 import java.util.List;
 
 public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.NoteHolder> {
-    public static final int MSG_TYPE_LEFT=0;
-    public static final int MSG_TYPE_RIGHT=1;
+    private static final int MSG_TYPE_LEFT = 0;
+    private static final int MSG_TYPE_RIGHT = 1;
+
     FirebaseUser firebaseUser;
 
-    public Context mContext;
+    private Context mContext;
     private List<Chat> mChat;
     private String imageurl;
     public MessageAdapter(Context mContext,List<Chat> mChat,String imageurl){
@@ -36,10 +37,9 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.NoteHold
     @NonNull
     @Override
     public MessageAdapter.NoteHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
-        if (viewType==MSG_TYPE_RIGHT) {
+        if (viewType == MSG_TYPE_RIGHT) {
             View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.chat_item_right, viewGroup, false);
             return new MessageAdapter.NoteHolder(v);
-
         }
         else {
             View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.chat_item_left, viewGroup, false);
@@ -50,11 +50,10 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.NoteHold
     @Override
     public void onBindViewHolder(@NonNull MessageAdapter.NoteHolder noteHolder, int i) {
         Chat chat=mChat.get(i);
+
         noteHolder.show_message.setText(chat.getMessage());
-        if(imageurl.equals("default")){
-            noteHolder.Image.setImageResource(R.mipmap.ic_launcher);
-        } else
-            Glide.with(mContext).load(imageurl).into(noteHolder.Image);
+
+        Glide.with(mContext).load(imageurl).into(noteHolder.Image);
     }
 
     @Override
