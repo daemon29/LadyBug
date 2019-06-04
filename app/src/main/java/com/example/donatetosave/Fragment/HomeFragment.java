@@ -38,6 +38,9 @@ public class HomeFragment extends Fragment implements HomeFragmentDialog.HomeFra
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View fragment = inflater.inflate(R.layout.fragment_home, container, false);
 
+        getActivity().setTitle("Home");
+
+
         BtnBackground = fragment.findViewById(R.id.home_edit_background);
         BtnImage = fragment.findViewById(R.id.home_edit_image);
         BtnName = fragment.findViewById(R.id.home_edit_name);

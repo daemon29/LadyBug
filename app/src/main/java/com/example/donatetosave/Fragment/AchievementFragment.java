@@ -26,13 +26,16 @@ public class AchievementFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
         View fragment = inflater.inflate(R.layout.fragment_achievement, container, false);
+
+        getActivity().setTitle("Your Achievement");
+
         db=FirebaseFirestore.getInstance();
         achievementRef=db.collection("User").document(FirebaseAuth.getInstance().getCurrentUser().getUid()).collection("Achievement");
         Query query = achievementRef.orderBy("count",Query.Direction.DESCENDING);
         FirestoreRecyclerOptions<Achievement> options = new FirestoreRecyclerOptions.Builder<Achievement>().setQuery(query,Achievement.class).build();
         adapter = new AchievementAdapter(options);
+
         RecyclerView recyclerView = fragment.findViewById(R.id.achievement_recyclerview);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));

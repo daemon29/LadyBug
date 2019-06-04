@@ -3,6 +3,7 @@ package com.example.donatetosave;
 
 import android.content.Intent;
 
+import android.net.Uri;
 import android.support.annotation.NonNull;
 
 import android.support.design.widget.FloatingActionButton;
@@ -114,7 +115,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com/bo.nguyen.7568"));
+            startActivity(browserIntent);
         }
         if(id==R.id.action_message){
             Intent i = new Intent(MainActivity.this,FriendActivity.class);

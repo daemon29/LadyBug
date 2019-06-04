@@ -56,6 +56,9 @@ public class ImportFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View fragment = inflater.inflate(R.layout.fragment_import, container, false);
+
+        getActivity().setTitle("Import");
+
         Upload=fragment.findViewById(R.id.import_upload);
         Photo=fragment.findViewById(R.id.import_photo);
         Submit=fragment.findViewById(R.id.import_submit);

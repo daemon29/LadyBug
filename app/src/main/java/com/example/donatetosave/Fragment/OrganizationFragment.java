@@ -39,6 +39,9 @@ public class OrganizationFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View fragment = inflater.inflate(R.layout.fragment_organization, container, false);
+
+        getActivity().setTitle("Organization");
+
         Image=fragment.findViewById(R.id.organization_image);
         Name = fragment.findViewById(R.id.organization_name);
         Bio = fragment.findViewById(R.id.organization_bio);
