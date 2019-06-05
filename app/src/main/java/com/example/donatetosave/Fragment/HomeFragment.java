@@ -1,4 +1,4 @@
-package com.example.donatetosave;
+package com.example.donatetosave.Fragment;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.donatetosave.R;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
@@ -36,6 +37,9 @@ public class HomeFragment extends Fragment implements HomeFragmentDialog.HomeFra
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View fragment = inflater.inflate(R.layout.fragment_home, container, false);
+
+        getActivity().setTitle("Home");
+
 
         BtnBackground = fragment.findViewById(R.id.home_edit_background);
         BtnImage = fragment.findViewById(R.id.home_edit_image);

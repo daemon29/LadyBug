@@ -1,4 +1,4 @@
-package com.example.donatetosave;
+package com.example.donatetosave.Fragment;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -10,7 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
+import com.example.donatetosave.Class.Achievement;
+import com.example.donatetosave.Adapter.AchievementAdapter;
+import com.example.donatetosave.R;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
@@ -25,11 +27,15 @@ public class AchievementFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View fragment = inflater.inflate(R.layout.fragment_achievement, container, false);
+
+        getActivity().setTitle("Your Achievement");
+
         db=FirebaseFirestore.getInstance();
         achievementRef=db.collection("User").document(FirebaseAuth.getInstance().getCurrentUser().getUid()).collection("Achievement");
         Query query = achievementRef.orderBy("count",Query.Direction.DESCENDING);
         FirestoreRecyclerOptions<Achievement> options = new FirestoreRecyclerOptions.Builder<Achievement>().setQuery(query,Achievement.class).build();
         adapter = new AchievementAdapter(options);
+
         RecyclerView recyclerView = fragment.findViewById(R.id.achievement_recyclerview);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));

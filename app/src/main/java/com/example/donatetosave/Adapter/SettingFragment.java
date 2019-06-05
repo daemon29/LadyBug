@@ -1,4 +1,4 @@
-package com.example.donatetosave;
+package com.example.donatetosave.Adapter;
 
 import android.content.Intent;
 import android.graphics.Bitmap;

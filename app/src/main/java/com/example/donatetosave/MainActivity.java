@@ -3,6 +3,7 @@ package com.example.donatetosave;
 
 import android.content.Intent;
 
+import android.net.Uri;
 import android.support.annotation.NonNull;
 
 import android.support.design.widget.FloatingActionButton;
@@ -23,6 +24,12 @@ import android.widget.SearchView;
 import android.widget.TextView;
 
 
+import com.example.donatetosave.Adapter.SettingFragment;
+import com.example.donatetosave.Fragment.AchievementFragment;
+import com.example.donatetosave.Fragment.HomeFragment;
+import com.example.donatetosave.Fragment.ImportFragment;
+import com.example.donatetosave.Fragment.MapFragment;
+import com.example.donatetosave.Fragment.OrganizationFragment;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 
@@ -108,9 +115,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            return true;
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com/bo.nguyen.7568"));
+            startActivity(browserIntent);
         }
-
+        if(id==R.id.action_message){
+            Intent i = new Intent(MainActivity.this,FriendActivity.class);
+            startActivity(i);
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -130,8 +141,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                    args.putString("work_id",documentSnapshot.getString("work_for"));
                    OrganizationFragment fragment= new OrganizationFragment();
                    fragment.setArguments(args);
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,fragment).commit();
-
+                   getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,fragment).commit();
                 }
             });
 

@@ -1,4 +1,4 @@
-package com.example.donatetosave;
+package com.example.donatetosave.Adapter;
 
 import android.graphics.Color;
 import android.support.annotation.NonNull;
@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.example.donatetosave.Class.Achievement;
+import com.example.donatetosave.R;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 

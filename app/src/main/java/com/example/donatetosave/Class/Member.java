@@ -1,4 +1,4 @@
-package com.example.donatetosave;
+package com.example.donatetosave.Class;
 
 public class Member {
 private long role;

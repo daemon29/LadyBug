@@ -1,4 +1,4 @@
-package com.example.donatetosave;
+package com.example.donatetosave.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,11 +15,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.donatetosave.Class.Member;
+import com.example.donatetosave.Adapter.MemberAdapter;
+import com.example.donatetosave.OtherUser;
+import com.example.donatetosave.R;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -37,6 +39,9 @@ public class OrganizationFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View fragment = inflater.inflate(R.layout.fragment_organization, container, false);
+
+        getActivity().setTitle("Organization");
+
         Image=fragment.findViewById(R.id.organization_image);
         Name = fragment.findViewById(R.id.organization_name);
         Bio = fragment.findViewById(R.id.organization_bio);
@@ -69,7 +74,7 @@ public class OrganizationFragment extends Fragment {
             @Override
             public void onItemClick(DocumentSnapshot documentSnapshot, int pos) {
                 Member member = documentSnapshot.toObject(Member.class);
-                Intent i = new Intent(getContext(),OtherUser.class);
+                Intent i = new Intent(getContext(), OtherUser.class);
                 String uid = member.getUid();
                 Bundle bundle= new Bundle();
                 bundle.putString("uid",uid);

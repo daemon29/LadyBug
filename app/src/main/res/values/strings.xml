@@ -69,6 +69,7 @@
     <string name="lbl_forgot_password">Forgot password?</string>
     <string name="forgot_password_msg">We just need your registered Email Id to sent you password reset instructions.</string>
     <string name="action_info">Learn about us</string>
+    <string name="action_message">Message</string>
 
     <string name="Name">You are offline</string>
     <string name="Reference">CEO of D2S - nhttuan@apcs.vn</string>
@@ -108,4 +109,6 @@
     <string name="submit_import">Submit to Donate2Save</string>
 
     <string name="member_add">ADD A MEMBER</string>
+    <string name="type_a_message">Type a message</string>
+
 </resources>

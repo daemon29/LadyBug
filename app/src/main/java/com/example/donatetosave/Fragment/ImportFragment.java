@@ -1,4 +1,4 @@
-package com.example.donatetosave;
+package com.example.donatetosave.Fragment;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -21,6 +21,7 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.donatetosave.R;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -55,6 +56,9 @@ public class ImportFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View fragment = inflater.inflate(R.layout.fragment_import, container, false);
+
+        getActivity().setTitle("Import");
+
         Upload=fragment.findViewById(R.id.import_upload);
         Photo=fragment.findViewById(R.id.import_photo);
         Submit=fragment.findViewById(R.id.import_submit);
@@ -130,7 +134,11 @@ public class ImportFragment extends Fragment {
                                                  FirebaseFunctionsException.Code code = ffe.getCode();
                                                  Object details = ffe.getDetails();
                                              }
+                                             progressBar.setVisibility(View.GONE);
+
                                          }
+                                         progressBar.setVisibility(View.GONE);
+
                                      }
                                  });
                             }
@@ -176,9 +184,16 @@ public class ImportFragment extends Fragment {
         return mFunction.getHttpsCallable("submit").call(data).continueWith(new Continuation<HttpsCallableResult, String>() {
             @Override
             public String then(@NonNull Task<HttpsCallableResult> task) throws Exception {
+                Log.d("TAG", "called then");
                 String result = (String) task.getResult().getData();
                 Log.d("TAG",result);
                 return result;
+            }
+        }).addOnSuccessListener(new OnSuccessListener<String>() {
+            @Override
+            public void onSuccess(String s) {
+                Log.d("TAG", "called SUccess");
+                Log.d("TAG",s+" 2d");
             }
         });
     }

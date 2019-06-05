@@ -127,7 +127,9 @@ public class LoginActivity extends Activity {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
                 GoogleSignInAccount account = task.getResult(ApiException.class);
-                if (account != null) firebaseAuthWithGoogle(account);
+                if (account != null) {firebaseAuthWithGoogle(account);
+                    progressBar.setVisibility(View.GONE);
+                }
             } catch (ApiException e) {
                 Log.w("TAG", "Google sign in failed", e);
             }
