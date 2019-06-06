@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
@@ -29,6 +30,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.functions.FirebaseFunctions;
 import com.google.firebase.functions.FirebaseFunctionsException;
 import com.google.firebase.functions.HttpsCallableResult;
@@ -38,27 +40,31 @@ import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 import static android.view.View.GONE;
 
 public class ImportFragment extends Fragment {
-    private Button Upload,Photo,Submit;
+    private ImageButton Upload,Photo;
+    private Button Submit;
     private ImageView Image;
-    private EditText Description,Address,Contact;
+    private EditText Description,Address,Contact,Title;
     private Spinner Expire,Tag;
     private StorageReference storageRef;
     private FirebaseStorage mStorage;
     private FirebaseFunctions mFunction;
     private ProgressBar progressBar;
+    GeoPoint location;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View fragment = inflater.inflate(R.layout.fragment_import, container, false);
 
         getActivity().setTitle("Import");
-
+        Title=fragment.findViewById(R.id.import_title);
         Upload=fragment.findViewById(R.id.import_upload);
         Photo=fragment.findViewById(R.id.import_photo);
         Submit=fragment.findViewById(R.id.import_submit);
@@ -123,7 +129,7 @@ public class ImportFragment extends Fragment {
                         storageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                             @Override
                             public void onSuccess(Uri uri) {
-                                submit(Address.getText().toString(),Contact.getText().toString(),Description.getText().toString(),Expire.getSelectedItem().toString(),Tag.getSelectedItem().toString(),uri.toString(),FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                submit(Address.getText().toString(),Contact.getText().toString(),Description.getText().toString(),Expire.getSelectedItem().toString(),Tag.getSelectedItem().toString(),uri.toString(),FirebaseAuth.getInstance().getCurrentUser().getUid(),location,Title.getText().toString())
                                          .addOnCompleteListener(new OnCompleteListener<String>() {
                                      @Override
                                      public void onComplete(@NonNull Task<String> task) {
@@ -172,8 +178,10 @@ public class ImportFragment extends Fragment {
         Image.setDrawingCacheEnabled(true);
         Image.buildDrawingCache();
     }
-    private Task<String> submit(String address,String contact,String description,String expire,String tag,String url,String uid){
+    private Task<String> submit(String address, String contact, String description, String expire, String tag, String url, String uid, GeoPoint location, String title){
         Map<String,Object> data = new HashMap<>();
+        data.put("location",location);
+        data.put("title",title);
         data.put("address",address);
         data.put("contact",contact);
         data.put("description",description);
@@ -181,6 +189,7 @@ public class ImportFragment extends Fragment {
         data.put("tag",tag);
         data.put("url",url);
         data.put("uid",uid);
+        data.put("submittime", Calendar.getInstance().getTime());
         return mFunction.getHttpsCallable("submit").call(data).continueWith(new Continuation<HttpsCallableResult, String>() {
             @Override
             public String then(@NonNull Task<HttpsCallableResult> task) throws Exception {
