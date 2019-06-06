@@ -1,6 +1,7 @@
 package com.example.donatetosave;
 
 
+import android.Manifest;
 import android.content.Intent;
 
 import android.net.Uri;
@@ -8,6 +9,7 @@ import android.support.annotation.NonNull;
 
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -30,6 +32,7 @@ import com.example.donatetosave.Fragment.HomeFragment;
 import com.example.donatetosave.Fragment.ImportFragment;
 import com.example.donatetosave.Fragment.MapFragment;
 import com.example.donatetosave.Fragment.OrganizationFragment;
+import com.example.donatetosave.MapsActivity;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 
@@ -52,11 +55,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private TextView detail;
     private ImageView profile_pic;
     private FirebaseUser currentuser;
+    public static final int MY_LOCATION_REQUEST_CODE = 99;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        ActivityCompat.requestPermissions(this,
+                new String[]{
+                        Manifest.permission.ACCESS_FINE_LOCATION},
+                MY_LOCATION_REQUEST_CODE);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -146,7 +154,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             });
 
         } else if (id == R.id.nav_map) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new MapFragment()).commit();
+            Intent intent = new Intent(MainActivity.this, MapsActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_import) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new ImportFragment()).commit();
         } else if (id == R.id.nav_share) {
