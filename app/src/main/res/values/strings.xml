@@ -112,4 +112,6 @@
     <string name="type_a_message">Type a message</string>
     <string name="title_itemname">Title/name…</string>
 
+    <string name="fcm_token">FCM Token: %s</string>
+
 </resources>
