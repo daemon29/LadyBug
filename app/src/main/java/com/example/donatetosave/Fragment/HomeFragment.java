@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 
 import android.support.v4.app.Fragment;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +30,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.functions.FirebaseFunctions;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 
@@ -45,6 +47,8 @@ public class HomeFragment extends Fragment implements HomeFragmentDialog.HomeFra
     private TextView Name, Bio,Email,WorkAt;
     private DocumentReference docref;
     private FirebaseStorage mStorage;
+    private StorageReference storageRef;
+
 
     @Nullable
     @Override
@@ -53,7 +57,7 @@ public class HomeFragment extends Fragment implements HomeFragmentDialog.HomeFra
 
         getActivity().setTitle("Home");
 
-        mStorage=FirebaseStorage.getInstance("gs://donatetosave-2fec5/User");
+        mStorage=FirebaseStorage.getInstance("gs://donatetosave-2fec5");
         BtnBackground = fragment.findViewById(R.id.home_edit_background);
         BtnImage = fragment.findViewById(R.id.home_edit_image);
         BtnName = fragment.findViewById(R.id.home_edit_name);
@@ -155,25 +159,27 @@ public class HomeFragment extends Fragment implements HomeFragmentDialog.HomeFra
                 BackGround.setDrawingCacheEnabled(true);
                 BackGround.buildDrawingCache();
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                imageBitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+                imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
                 final byte[] file = baos.toByteArray();
-                mStorage.getReference(FirebaseAuth.getInstance().getCurrentUser().getUid()+"_background.png").delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                storageRef = mStorage.getReference("User").child(FirebaseAuth.getInstance().getCurrentUser().getUid()+"_background.jpg");
+                storageRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        mStorage.getReference(FirebaseAuth.getInstance().getCurrentUser().getUid()+"_background.png").putBytes(file).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    public void onSuccess(Void aVoid) {
+                        UploadTask uploadTask = storageRef.putBytes(file);
+                        uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                             @Override
                             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                                mStorage.getReference().getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                storageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                     @Override
                                     public void onSuccess(Uri uri) {
                                         FirebaseFirestore.getInstance().collection("User").document(FirebaseAuth.getInstance().getCurrentUser().getUid()).update(
-                                                "back_ground", uri
+                                                "back_ground", uri.toString()
                                         );
+                                        Log.d("Here","back_ground");
                                     }
                                 });
                             }
                         });
-
                     }
                 });
 
@@ -191,25 +197,28 @@ public class HomeFragment extends Fragment implements HomeFragmentDialog.HomeFra
                 Image.setDrawingCacheEnabled(true);
                 Image.buildDrawingCache();
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                imageBitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+                imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
                 final byte[] file = baos.toByteArray();
-                mStorage.getReference(FirebaseAuth.getInstance().getCurrentUser().getUid()+".png").delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                storageRef = mStorage.getReference("User").child(FirebaseAuth.getInstance().getCurrentUser().getUid()+".jpg");
+                storageRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        mStorage.getReference(FirebaseAuth.getInstance().getCurrentUser().getUid()+".png").putBytes(file).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    public void onSuccess(Void aVoid) {
+                        UploadTask uploadTask = storageRef.putBytes(file);
+                        uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                             @Override
                             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                                mStorage.getReference().getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                storageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                     @Override
                                     public void onSuccess(Uri uri) {
                                         FirebaseFirestore.getInstance().collection("User").document(FirebaseAuth.getInstance().getCurrentUser().getUid()).update(
-                                                "image_url", uri
+                                                "image_url", uri.toString()
                                         );
+                                        Log.d("Here",uri.toString());
+
                                     }
                                 });
                             }
                         });
-
                     }
                 });
             }
