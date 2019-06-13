@@ -144,7 +144,6 @@ public class HomeFragment extends Fragment implements HomeFragmentDialog.HomeFra
                     "work_place", result
             );
         }
-
     }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

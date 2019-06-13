@@ -178,7 +178,7 @@ public class ImportFragment extends Fragment {
                 data_item.put("geo",location);
                 data_item.put("key",documentReference.getId());
                 data_item.put("tag",tag);
-                FirebaseDatabase.getInstance().getReference().child("Item").setValue(data_item).addOnSuccessListener(new OnSuccessListener<Void>() {
+                FirebaseDatabase.getInstance().getReference().child("Item").push().setValue(data_item).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
                         progressBar.setVisibility(GONE);
