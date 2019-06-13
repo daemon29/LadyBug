@@ -112,10 +112,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             return;
                         }
 
-                        // Get new Instance ID token
                         String token = task.getResult().getToken();
 
-                        // Log and toast
                         String msg = getString(R.string.fcm_token, token);
                         Log.d("TAG", msg);
                         //Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
