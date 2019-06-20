@@ -106,12 +106,15 @@
     <string name="import_tag">Type:</string>
     <string name="import_pickup">Address… (Optional)</string>
     <string name="import_contact">Contact number… (Optional)</string>
-    <string name="submit_import">Submit to Donate2Save</string>
+    <string name="submit_import">Submit</string>
 
     <string name="member_add">ADD A MEMBER</string>
     <string name="type_a_message">Type a message</string>
     <string name="title_itemname">Title/name…</string>
 
     <string name="fcm_token">FCM Token: %s</string>
+    <string name="pick_a_place">Pick a place...</string>
+    <string name="get_your_location">Get your location...</string>
+    <string name="search_for_a_place">Search for a place...</string>
 
 </resources>

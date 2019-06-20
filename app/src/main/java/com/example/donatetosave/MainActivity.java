@@ -17,6 +17,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.libraries.places.api.Places;
+
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,21 +29,19 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
 import com.example.donatetosave.Adapter.SettingFragment;
 import com.example.donatetosave.Fragment.AchievementFragment;
 import com.example.donatetosave.Fragment.HomeFragment;
 import com.example.donatetosave.Fragment.ImportFragment;
-import com.example.donatetosave.Fragment.MapFragment;
 import com.example.donatetosave.Fragment.OrganizationFragment;
-import com.example.donatetosave.MapsActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 
 import com.google.android.gms.tasks.Task;
+import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
@@ -47,13 +49,14 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 
-
 import com.bumptech.glide.Glide;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+    private static final long LOCATION_REFRESH_TIME = 0;
+    private static final float LOCATION_REFRESH_DISTANCE = 10;
     private DocumentReference noteRef;
     private SearchView searchView;
     private DrawerLayout drawer;
@@ -62,7 +65,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private ImageView profile_pic;
     private FirebaseUser currentuser;
     public static final int MY_LOCATION_REQUEST_CODE = 99;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,6 +75,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 MY_LOCATION_REQUEST_CODE);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        if (!Places.isInitialized()) {
+            Places.initialize(getApplicationContext(), "AIzaSyC-dn3G-usyAwqgUIJVVVAO2qz4iZ2CTmo");
+        }
+        PlacesClient placesClient = Places.createClient(this);
 
         currentuser=FirebaseAuth.getInstance().getCurrentUser();
 
