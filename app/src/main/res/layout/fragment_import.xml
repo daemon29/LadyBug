@@ -152,7 +152,6 @@
                 android:text="@string/get_your_location" />
 
         </LinearLayout>
-
         <EditText
             android:id="@+id/import_address"
             android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"

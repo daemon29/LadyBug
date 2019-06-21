@@ -25,6 +25,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -34,6 +35,12 @@ import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.libraries.places.widget.Autocomplete;
 import com.google.android.libraries.places.widget.AutocompleteActivity;
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
+import com.google.common.collect.MapMaker;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -51,8 +58,9 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMyLoca
     public static final int MY_LOCATION_REQUEST_CODE = 99;
     List<Place.Field> fields = Arrays.asList(Place.Field.LAT_LNG,Place.Field.ID, Place.Field.NAME);
     private GoogleMap mMap;
-    private ArrayList<Marker> itemList;
+    private ArrayList<Marker> itemList = new ArrayList<>();
     FirebaseFirestore db = FirebaseFirestore.getInstance();
+    FirebaseDatabase fdb = FirebaseDatabase.getInstance();
     public LocationManager locationManager;
     private final int AUTOCOMPLETE_REQUEST_CODE = 98;
     private Place place;
@@ -100,6 +108,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMyLoca
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
             mMap.setMyLocationEnabled(true);
+            mMap.setOnMyLocationButtonClickListener(this);
         } else {
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
@@ -121,6 +130,17 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMyLoca
 
     @Override
     public boolean onMyLocationButtonClick() {
+        fusedLocationClient.getLastLocation()
+                .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                    @Override
+                    public void onSuccess(Location location) {
+                        if (location != null) {
+                            LatLng latLng = new LatLng(location.getLatitude(),location.getLongitude());
+                            getDocumentNearBy(latLng,10);
+                        }
+                    }
+                });
+        Log.i("checkclick", "herhe");
         return false;
     }
 
@@ -128,8 +148,9 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMyLoca
     public void onMyLocationClick(@NonNull Location location) {
         if (location != null) {
             LatLng latLng = new LatLng(location.getLatitude(),location.getLongitude());
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,15));
+            //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,15));
             getDocumentNearBy(latLng,10);
+            Log.d("check click", "herhe");
         }
     }
 
@@ -160,7 +181,38 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMyLoca
 
         GeoPoint lesserGeopoint = new GeoPoint(lowerlat,lowerlng);
         GeoPoint greaterGeopoint = new GeoPoint(greaterlat,greaterlng);
+        fdb.getReference().child("Item").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Iterable<DataSnapshot> listChirdren = dataSnapshot.getChildren();
+                for(DataSnapshot child: listChirdren) {
+                    LatLng latLng = new LatLng(child.child("geo").child("latitude").getValue(Double.class),child.child("geo").child("longitude").getValue(Double.class));
+                    String tag = child.child("tag").getValue(String.class);
+                    final Marker  marker = mMap.addMarker(new MarkerOptions().position(latLng));
+                    db.collection("Item").document(child.getKey())
+                            .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if (task.isSuccessful()) {
+                                DocumentSnapshot document = task.getResult();
+                                if (document.exists()) {
+                                    marker.setTitle(document.get("title",String.class));
+                                    Log.d("", "DocumentSnapshot data: " + document.get("title", String.class));
+                                } else {
 
+                                }
+                            }
+                        }
+                    });
+                    itemList.add(marker);
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+        /*
         db.collection("Item")
                 .whereGreaterThanOrEqualTo("LatLng",lesserGeopoint)
                 .whereLessThanOrEqualTo("LatLng",greaterGeopoint)
@@ -177,7 +229,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMyLoca
                             Log.d("Get FAIL!","Error");
                         }
                     }
-                });
+                });*/
 
     }
 
@@ -190,6 +242,8 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMyLoca
                 if (place != null) {
                     LatLng latLng = place.getLatLng();
                     mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,15));
+                    getDocumentNearBy(latLng,10);
+
                 }
                 Log.i("duoc", "Place: " + place.getName() + ", " + place.getId());
             } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
