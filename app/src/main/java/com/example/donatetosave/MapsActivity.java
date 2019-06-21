@@ -13,8 +13,13 @@ import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RadioGroup;
 
+import com.example.donatetosave.Class.MarkerTag;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -24,6 +29,8 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -43,6 +50,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -56,16 +64,21 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMyLoca
         OnMapReadyCallback {
     private ImageView Search_BTN;
     public static final int MY_LOCATION_REQUEST_CODE = 99;
-    List<Place.Field> fields = Arrays.asList(Place.Field.LAT_LNG,Place.Field.ID, Place.Field.NAME);
+    List<Place.Field> fields = Arrays.asList(Place.Field.LAT_LNG, Place.Field.ID, Place.Field.NAME);
     private GoogleMap mMap;
     private ArrayList<Marker> itemList = new ArrayList<>();
+    private ArrayList<Marker> orgList = new ArrayList<>();
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     FirebaseDatabase fdb = FirebaseDatabase.getInstance();
     public LocationManager locationManager;
+    private ImageView displayVisibilityCheckBox;
     private final int AUTOCOMPLETE_REQUEST_CODE = 98;
     private Place place;
+    CheckBox CBorg,  CBfood, CBplastic, CBhousehold, CBothers;
+
     Intent intent;
     private FusedLocationProviderClient fusedLocationClient;
+    LinearLayout visibilityCheckBox;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,6 +103,123 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMyLoca
                 startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE);
             }
         });
+        CBorg = findViewById(R.id.cb_org);
+        CBorg.setChecked(true);
+        CBorg.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    for(Marker m:orgList){
+                        m.setVisible(true);
+                    }
+                }
+                else {
+                    for(Marker m:orgList){
+                        m.setVisible(false);
+                    }
+                }
+            }
+        });
+        CBfood = findViewById(R.id.cb_food);
+        CBfood.setChecked(true);
+        CBfood.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    for(Marker m:itemList){
+                        if(((MarkerTag) m.getTag()).getTag().equals("Food")) {
+                            m.setVisible(true);
+                        }
+                    }
+                }
+                else {
+                    for(Marker m:itemList){
+                        if(((MarkerTag) m.getTag()).getTag().equals("Food")) {
+                            m.setVisible(false);
+                        }
+                    }
+                }
+            }
+        });
+        CBplastic = findViewById(R.id.cb_plastic);
+        CBplastic.setChecked(true);
+        CBplastic.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    for(Marker m:itemList){
+                        if(((MarkerTag) m.getTag()).getTag().equals("Plastic")) {
+                            m.setVisible(true);
+                        }
+                    }
+                }
+                else {
+                    for(Marker m:itemList){
+                        if(((MarkerTag) m.getTag()).getTag().equals("Plastic")) {
+                            m.setVisible(false);
+                        }
+                    }
+                }
+            }
+        });
+        CBhousehold = findViewById(R.id.cb_household);
+        CBhousehold.setChecked(true);
+        CBhousehold.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    for(Marker m:itemList){
+                        if(((MarkerTag) m.getTag()).getTag().equals("Household")) {
+                            m.setVisible(true);
+                        }
+                    }
+                }
+                else {
+                    for(Marker m:itemList){
+                        if(((MarkerTag) m.getTag()).getTag().equals("Household")) {
+                            m.setVisible(false);
+                        }
+                    }
+                }
+            }
+        });
+        CBothers = findViewById(R.id.cb_others);
+        CBothers.setChecked(true);
+        CBothers.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    for(Marker m:itemList){
+                        if(((MarkerTag) m.getTag()).getTag().equals("Others")) {
+                            m.setVisible(true);
+                            Log.i("ldld","lddld");
+                        }
+                    }
+                }
+                else {
+                    for(Marker m:itemList){
+                        if(((MarkerTag) m.getTag()).getTag().equals("Others")) {
+                            m.setVisible(false);
+                            Log.i("ldld","lddldddd");
+                        }
+                    }
+                }
+            }
+        });
+        visibilityCheckBox = findViewById(R.id.ll_checkbox_visibility);
+        displayVisibilityCheckBox = findViewById(R.id.display_visibility);
+        displayVisibilityCheckBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(visibilityCheckBox.getVisibility() == View.INVISIBLE){
+                    displayVisibilityCheckBox.setAlpha((float) 0.5);
+                    visibilityCheckBox.setVisibility(View.VISIBLE);
+                } else {
+                    displayVisibilityCheckBox.setAlpha((float) 1);
+                    visibilityCheckBox.setVisibility(View.INVISIBLE);
+                }
+            }
+        });
     }
 
 
@@ -105,6 +235,115 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMyLoca
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        String myMapStyle = "\n" +
+                "\n" +
+                "[\n" +
+                "    {\n" +
+                "        \"featureType\": \"landscape\",\n" +
+                "        \"stylers\": [\n" +
+                "            {\n" +
+                "                \"hue\": \"#FFA800\"\n" +
+                "            },\n" +
+                "            {\n" +
+                "                \"saturation\": 0\n" +
+                "            },\n" +
+                "            {\n" +
+                "                \"lightness\": 0\n" +
+                "            },\n" +
+                "            {\n" +
+                "                \"gamma\": 1\n" +
+                "            }\n" +
+                "        ]\n" +
+                "    },\n" +
+                "    {\n" +
+                "        \"featureType\": \"road.highway\",\n" +
+                "        \"stylers\": [\n" +
+                "            {\n" +
+                "                \"hue\": \"#53FF00\"\n" +
+                "            },\n" +
+                "            {\n" +
+                "                \"saturation\": -73\n" +
+                "            },\n" +
+                "            {\n" +
+                "                \"lightness\": 40\n" +
+                "            },\n" +
+                "            {\n" +
+                "                \"gamma\": 1\n" +
+                "            }\n" +
+                "        ]\n" +
+                "    },\n" +
+                "    {\n" +
+                "        \"featureType\": \"road.arterial\",\n" +
+                "        \"stylers\": [\n" +
+                "            {\n" +
+                "                \"hue\": \"#FBFF00\"\n" +
+                "            },\n" +
+                "            {\n" +
+                "                \"saturation\": 0\n" +
+                "            },\n" +
+                "            {\n" +
+                "                \"lightness\": 0\n" +
+                "            },\n" +
+                "            {\n" +
+                "                \"gamma\": 1\n" +
+                "            }\n" +
+                "        ]\n" +
+                "    },\n" +
+                "    {\n" +
+                "        \"featureType\": \"road.local\",\n" +
+                "        \"stylers\": [\n" +
+                "            {\n" +
+                "                \"hue\": \"#00FFFD\"\n" +
+                "            },\n" +
+                "            {\n" +
+                "                \"saturation\": 0\n" +
+                "            },\n" +
+                "            {\n" +
+                "                \"lightness\": 30\n" +
+                "            },\n" +
+                "            {\n" +
+                "                \"gamma\": 1\n" +
+                "            }\n" +
+                "        ]\n" +
+                "    },\n" +
+                "    {\n" +
+                "        \"featureType\": \"water\",\n" +
+                "        \"stylers\": [\n" +
+                "            {\n" +
+                "                \"hue\": \"#00BFFF\"\n" +
+                "            },\n" +
+                "            {\n" +
+                "                \"saturation\": 6\n" +
+                "            },\n" +
+                "            {\n" +
+                "                \"lightness\": 8\n" +
+                "            },\n" +
+                "            {\n" +
+                "                \"gamma\": 1\n" +
+                "            }\n" +
+                "        ]\n" +
+                "    },\n" +
+                "    {\n" +
+                "        \"featureType\": \"poi\",\n" +
+                "        \"stylers\": [\n" +
+                "            {\n" +
+                "                \"hue\": \"#679714\"\n" +
+                "            },\n" +
+                "            {\n" +
+                "                \"saturation\": 33.4\n" +
+                "            },\n" +
+                "            {\n" +
+                "                \"lightness\": -25.4\n" +
+                "            },\n" +
+                "            {\n" +
+                "                \"gamma\": 1\n" +
+                "            }\n" +
+                "        ]\n" +
+                "    }\n" +
+                "]\n" +
+                "\n";
+        MapStyleOptions style = new MapStyleOptions(myMapStyle);
+        mMap.setMapStyle(style);
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
             mMap.setMyLocationEnabled(true);
@@ -119,9 +358,9 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMyLoca
                     @Override
                     public void onSuccess(Location location) {
                         if (location != null) {
-                            LatLng latLng = new LatLng(location.getLatitude(),location.getLongitude());
-                            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,15));
-                            getDocumentNearBy(latLng,10);
+                            LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+                            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
+                            getDocumentNearBy(latLng, 10);
                         }
                     }
                 });
@@ -130,13 +369,15 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMyLoca
 
     @Override
     public boolean onMyLocationButtonClick() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        }
         fusedLocationClient.getLastLocation()
                 .addOnSuccessListener(this, new OnSuccessListener<Location>() {
                     @Override
                     public void onSuccess(Location location) {
                         if (location != null) {
-                            LatLng latLng = new LatLng(location.getLatitude(),location.getLongitude());
-                            getDocumentNearBy(latLng,10);
+                            LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+                            getDocumentNearBy(latLng, 10);
                         }
                     }
                 });
@@ -172,6 +413,10 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMyLoca
         }
     }
     private void getDocumentNearBy(LatLng latlng, double distance){
+        for(Marker m: itemList){
+            m.remove();
+        }
+        itemList.clear();
         double lat = 0.0144927536231884;
         double lng = 0.0181818181818182;
         double lowerlat = latlng.latitude - lat * distance;
@@ -179,8 +424,9 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMyLoca
         double greaterlat = latlng.latitude + lat*distance;
         double greaterlng = latlng.longitude + lat*distance;
 
-        GeoPoint lesserGeopoint = new GeoPoint(lowerlat,lowerlng);
-        GeoPoint greaterGeopoint = new GeoPoint(greaterlat,greaterlng);
+        LatLng lesserGeopoint = new LatLng(lowerlat,lowerlng);
+        LatLng greaterGeopoint = new LatLng(greaterlat,greaterlng);
+        final LatLngBounds bound = new LatLngBounds(lesserGeopoint,greaterGeopoint);
         fdb.getReference().child("Item").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -188,8 +434,9 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMyLoca
                 for(DataSnapshot child: listChirdren) {
                     LatLng latLng = new LatLng(child.child("geo").child("latitude").getValue(Double.class),child.child("geo").child("longitude").getValue(Double.class));
                     String tag = child.child("tag").getValue(String.class);
+                    if(bound.contains(latLng)){
                     final Marker  marker = mMap.addMarker(new MarkerOptions().position(latLng));
-                    marker.setTag(child.child("key").getValue(String.class));
+                    marker.setTag(new MarkerTag(child.child("key").getValue(String.class),tag));
                     db.collection("Item").document(child.child("key").getValue(String.class))
                             .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                         @Override
@@ -198,6 +445,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMyLoca
                                 DocumentSnapshot document = task.getResult();
                                 if (document.exists()) {
                                     marker.setTitle(document.get("title",String.class));
+                                    marker.setSnippet(document.get("description",String.class));
                                     Log.d("nah", "DocumentSnapshot data: " + document.get("title", String.class));
                                 } else {
                                     Log.d("nah", "nathing");
@@ -206,7 +454,20 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMyLoca
                             }
                         }
                     });
+                    if(!CBfood.isChecked() && ((MarkerTag)marker.getTag()).getTag().equals("Food")){
+                        marker.setVisible(false);
+                    }
+                    if(!CBplastic.isChecked() && ((MarkerTag)marker.getTag()).getTag().equals("Plastic")){
+                        marker.setVisible(false);
+                    }
+                    if(!CBhousehold.isChecked() && ((MarkerTag)marker.getTag()).getTag().equals("Household")){
+                        marker.setVisible(false);
+                    }
+                    if(!CBothers.isChecked() && ((MarkerTag)marker.getTag()).getTag().equals("Others")){
+                        marker.setVisible(false);
+                    }
                     itemList.add(marker);
+                    }
                 }
             }
             @Override
