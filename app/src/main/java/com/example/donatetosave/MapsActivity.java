@@ -189,7 +189,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMyLoca
                     LatLng latLng = new LatLng(child.child("geo").child("latitude").getValue(Double.class),child.child("geo").child("longitude").getValue(Double.class));
                     String tag = child.child("tag").getValue(String.class);
                     final Marker  marker = mMap.addMarker(new MarkerOptions().position(latLng));
-                    db.collection("Item").document(child.getKey())
+                    db.collection("Item").document(child.child("key").getValue(String.class))
                             .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -197,8 +197,10 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMyLoca
                                 DocumentSnapshot document = task.getResult();
                                 if (document.exists()) {
                                     marker.setTitle(document.get("title",String.class));
-                                    Log.d("", "DocumentSnapshot data: " + document.get("title", String.class));
+                                    marker.setTag(child.child("key").getValue(String.class));
+                                    Log.d("nah", "DocumentSnapshot data: " + document.get("title", String.class));
                                 } else {
+                                    Log.d("nah", "nathing");
 
                                 }
                             }
