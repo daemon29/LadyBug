@@ -116,5 +116,7 @@
     <string name="pick_a_place">Pick a place...</string>
     <string name="get_your_location">Get your location...</string>
     <string name="search_for_a_place">Search for a place...</string>
+    <string name="show">Show:</string>
+    <string name="display">Display</string>
 
 </resources>

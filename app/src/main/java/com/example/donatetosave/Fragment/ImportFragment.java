@@ -41,6 +41,7 @@ import com.google.android.libraries.places.widget.Autocomplete;
 import com.google.android.libraries.places.widget.AutocompleteActivity;
 
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -240,6 +241,7 @@ public class ImportFragment extends Fragment {
         data.put("description", description);
         data.put("expire", Integer.parseInt(expire));
         data.put("tag", tag);
+        data.put("userID", FirebaseAuth.getInstance().getCurrentUser().getUid());
         data.put("url", url);
         data.put("time", Calendar.getInstance().getTime());
 /*
