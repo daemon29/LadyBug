@@ -12,6 +12,9 @@ import android.util.Log;
 
 import com.example.donatetosave.Class.Notification;
 import com.example.donatetosave.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -32,8 +35,13 @@ public class MyFirebaseInstanceIDService extends FirebaseMessagingService {
     }
     public void onNewToken(String s) {
         super.onNewToken(s);
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+        reference.child("User")
+                .child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("token")
+                .setValue(s);
         Log.e("NEW_TOKEN",s);
     }
+
     private void showNotification(Map<String, String> data) {
         NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
         String NOTIFICATION_CHANNEL_ID = "donate2save.test";
@@ -51,8 +59,8 @@ public class MyFirebaseInstanceIDService extends FirebaseMessagingService {
                 .setDefaults(-1)
                 .setWhen(System.currentTimeMillis())
                 .setSmallIcon(R.drawable.ic_launcher_background)
-                .setContentTitle(data.get("title").toString())
-                .setContentText(data.get("body").toString())
+                .setContentTitle(data.get("title"))
+                .setContentText(data.get("body"))
                 .setContentInfo("Info");
         notificationManager.notify(new Random().nextInt(),notificationBuilder.build());
 

@@ -17,6 +17,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 
+import com.example.donatetosave.Classifier.DetectorActivity;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.libraries.places.api.Places;
@@ -126,6 +127,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         //Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
                     }
                 });
+
     }
 
     @Override
@@ -189,7 +191,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_import) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new ImportFragment()).commit();
         } else if (id == R.id.nav_share) {
-
+            Intent objectscan = new Intent(MainActivity.this, DetectorActivity.class);
+            startActivity(objectscan);
         } else if (id == R.id.nav_send) {
 
         }else if (id == R.id.nav_achievement) {
