@@ -22,8 +22,12 @@ public class AchievementAdapter extends FirestoreRecyclerAdapter<Achievement,Ach
     @Override
     protected void onBindViewHolder(@NonNull NoteHolder holder, int position, @NonNull Achievement model) {
         holder.AchievementName.setText(model.getName());
-        holder.Progress.setText(model.getCount().toString()+" / "+model.getMax().toString());
-        if(model.getCount()>=model.getMax()) holder.Layout.setBackgroundColor(Color.parseColor("#71FCAD"));
+        if(model.getCount()>=model.getMax()) {
+            holder.Layout.setBackgroundColor(Color.parseColor("#C7E28A"));
+            holder.Progress.setVisibility(View.INVISIBLE);
+        }
+        else  holder.Progress.setText(model.getCount().toString()+" / "+model.getMax().toString());
+
     }
 
     @NonNull

@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#4E67EB</color>
-    <color name="colorPrimaryDark">#291D89</color>
-    <color name="colorAccent">#5080FF</color>
+    <color name="colorPrimary">#ED4848</color>
+    <color name="colorPrimaryDark">#CE3334</color>
+    <color name="colorAccent">#E2EDC8</color>
     <color name="colorBlue">#36BBEC</color>
     <color name="white">#ffffff</color>
 
-    <color name="color_navigation_background">#333399</color>
-    <color name="color_navigation_text">#5080FF</color>
+    <color name="color_navigation_background">#000</color>
+    <color name="color_navigation_text">#000</color>
 
     <color name="submit">#FF7149</color>
     <color name="facebook">#3b5998</color>
-    <color name="Achievement">#804A7AD6</color>
+    <color name="Achievement">#ED4848</color>
     <color name="Achievement_Done">#71FCAD</color>
 
     <color name="member_admin">#96FBFF12</color>

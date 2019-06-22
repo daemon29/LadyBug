@@ -48,11 +48,13 @@
     <string name="title_activity_profile">Firebase</string>
     <string name="title_activity_login">Sign in</string>
     <string name="hint_email">Email</string>
+    <string name="hint_username">Username</string>
     <string name="hint_password">Password</string>
+    <string name="hint_confirm_password">Confirm Password</string>
     <string name="hint_name">Fullname</string>
-    <string name="btn_login">LOGIN</string>
-    <string name="btn_link_to_register">Not a member? Get registered in Donate2Save now!</string>
-    <string name="btn_link_to_login">Already registered. Login Me!</string>
+    <string name="btn_login">Sign in</string>
+    <string name="btn_link_to_register">Not a member? Get registered to Ladybug now!</string>
+    <string name="btn_link_to_login">Already registered. Login now!</string>
     <string name="title_activity_reset_password">ResetPasswordActivity</string>
     <string name="address">Address</string>
 
@@ -80,8 +82,8 @@
     <string name="full_name">Full Name</string>
     <string name="details">Thông tin ngắn của bạn (tùy chọn)</string>
     <string name="or">OR</string>
-    <string name="facebook">Continue with Facebook</string>
-    <string name="google">Login with Google+</string>
+    <string name="facebook">Facebook</string>
+    <string name="google">Google+</string>
 
     <string name="title_activity_maps">Map</string>
     <string name="todo">TODO</string>
