@@ -4,7 +4,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/note_background">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appBarLayout3"
@@ -81,9 +82,10 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="50dp"
         android:layout_marginEnd="50dp"
-        android:background="@color/member_adding"
+        android:background="@color/colorPrimary"
         android:drawableStart="@drawable/ic_add_group"
         android:text="@string/member_add"
+        android:textColor="@color/white"
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

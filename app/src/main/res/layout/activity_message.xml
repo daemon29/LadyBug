@@ -12,7 +12,9 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary" >
+            android:background="@color/white"
+            app:titleTextColor="@color/colorPrimary"
+            app:subtitleTextColor="@color/colorPrimary">
             <RelativeLayout
                 android:id="@+id/deltaRelative"
                 android:layout_width="match_parent"
@@ -45,7 +47,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/layout_mess"
-        android:layout_below="@+id/bar_layout"/>
+        android:layout_below="@+id/bar_layout"
+        android:background="@drawable/note_background"/>
     <RelativeLayout
         android:id="@+id/layout_mess"
         android:layout_width="match_parent"
@@ -61,12 +64,12 @@
             android:background="@android:color/transparent"
             android:layout_centerVertical="true"
             android:hint="@string/type_a_message"
-            />
+            android:layout_margin="10dp"/>
         <ImageButton
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:id="@+id/btn_send"
-            android:background="@drawable/ic_send"
+            android:background="@drawable/send_message"
             android:layout_alignParentEnd="true" />
     </RelativeLayout>
 </RelativeLayout>
