@@ -4,12 +4,14 @@ package com.example.donatetosave;
 import android.Manifest;
 import android.content.Intent;
 
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -18,6 +20,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 
 import com.example.donatetosave.Classifier.DetectorActivity;
+import com.example.donatetosave.Notification.MyFirebaseInstanceIDService;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.libraries.places.api.Places;
@@ -58,6 +61,7 @@ import com.google.firebase.iid.InstanceIdResult;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private static final long LOCATION_REFRESH_TIME = 0;
     private static final float LOCATION_REFRESH_DISTANCE = 10;
+    private static final int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 33;
     private DocumentReference noteRef;
     private SearchView searchView;
     private DrawerLayout drawer;
@@ -65,18 +69,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private TextView detail;
     private ImageView profile_pic;
     private FirebaseUser currentuser;
+    MyFirebaseInstanceIDService givetoken = new MyFirebaseInstanceIDService();
     public static final int MY_LOCATION_REQUEST_CODE = 99;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ActivityCompat.requestPermissions(this,
-                new String[]{
-                        Manifest.permission.ACCESS_FINE_LOCATION},
-                MY_LOCATION_REQUEST_CODE);
+        ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION},MY_LOCATION_REQUEST_CODE);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         if (!Places.isInitialized()) {
             Places.initialize(getApplicationContext(), "AIzaSyC-dn3G-usyAwqgUIJVVVAO2qz4iZ2CTmo");
         }
@@ -84,14 +85,28 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         currentuser=FirebaseAuth.getInstance().getCurrentUser();
 
-        searchView= findViewById(R.id.action_search);
 
         drawer =  findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+            // Permission is not granted
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.CAMERA)) {
+                // Show an explanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+            } else {
+                // No explanation needed; request the permission
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.CAMERA},
+                        MY_PERMISSIONS_REQUEST_READ_CONTACTS);
+            }
+        }
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         if(savedInstanceState==null){
@@ -119,11 +134,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             Log.w("TAG", "getInstanceId failed", task.getException());
                             return;
                         }
-
                         String token = task.getResult().getToken();
-
-                        String msg = getString(R.string.fcm_token, token);
-                        Log.d("TAG", msg);
+                        givetoken.onNewToken(token);
                         //Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -154,10 +166,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com/bo.nguyen.7568"));
-            startActivity(browserIntent);
-        }
+
         if(id==R.id.action_message){
             Intent i = new Intent(MainActivity.this,FriendActivity.class);
             startActivity(i);
@@ -190,12 +199,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             startActivity(intent);
         } else if (id == R.id.nav_import) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new ImportFragment()).commit();
-        } else if (id == R.id.nav_share) {
+        } else if (id == R.id.nav_smart) {
             Intent objectscan = new Intent(MainActivity.this, DetectorActivity.class);
             startActivity(objectscan);
-        } else if (id == R.id.nav_send) {
-
-        }else if (id == R.id.nav_achievement) {
+        } else if (id == R.id.nav_achievement) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new AchievementFragment()).commit();
         } else if (id == R.id.nav_signout) {
             FirebaseAuth.getInstance().signOut();

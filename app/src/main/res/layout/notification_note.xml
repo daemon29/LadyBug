@@ -1,5 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        >
+     <ImageView
+         android:id="@+id/notification_image"
+         android:layout_width="50dp"
+         android:layout_height="50dp"
+         android:layout_marginStart="5dp"
+         android:layout_marginTop="5dp"
+         android:layout_marginBottom="5dp"/>
 
+        <TextView
+            android:id="@+id/notification_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="5dp"
+            android:layout_toEndOf="@+id/notification_image"
+            android:text="asdas" />
+        <TextView
+            android:id="@+id/notification_tag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_toEndOf="@+id/notification_image"
+            android:layout_below="@+id/notification_name"
+            android:text="asdas" />
+        <TextView
+            android:id="@+id/notification_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_toEndOf="@+id/notification_image"
+            android:layout_below="@+id/notification_tag"
+            android:text="asdas" />
+    </RelativeLayout>
 </android.support.v7.widget.CardView>

@@ -1,27 +1,20 @@
 package com.example.donatetosave.Class;
 
 public class Notification {
-    private int type;
-    private String title, url;
-
-    public int getType() {
-        return type;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public Notification(int type, String title, String url) {
-        this.type = type;
-        this.title = title;
-        this.url = url;
-    }
+    private String key;
 
     public Notification() {
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
+
+    public Notification(String key) {
+        this.key = key;
     }
 }

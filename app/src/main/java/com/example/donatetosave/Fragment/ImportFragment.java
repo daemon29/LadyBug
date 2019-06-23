@@ -25,14 +25,12 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.donatetosave.R;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -216,7 +214,7 @@ public class ImportFragment extends Fragment {
         } else {
             Bitmap imageBitmap = null;
             if (data == null) return;
-            if (requestCode == 1) {
+            if (requestCode == 11) {
                 imageBitmap = (Bitmap) data.getExtras().get("data");
             } else if (requestCode == 0) {
                 try {
@@ -241,7 +239,7 @@ public class ImportFragment extends Fragment {
         data.put("description", description);
         data.put("expire", Integer.parseInt(expire));
         data.put("tag", tag);
-        data.put("userID", FirebaseAuth.getInstance().getCurrentUser().getUid());
+        data.put("uid", FirebaseAuth.getInstance().getCurrentUser().getUid());
         data.put("url", url);
         data.put("time", Calendar.getInstance().getTime());
 /*

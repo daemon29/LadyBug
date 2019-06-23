@@ -91,6 +91,8 @@
     <string name="home">Home</string>
     <string name="achievement">Achievement</string>
     <string name="Import">Import</string>
+    <string name="Smart">Smart Import</string>
+
     <string name="notification">Notification</string>
     <string name="organization">My Organization</string>
     <string name="donate_map">Donate Map</string>

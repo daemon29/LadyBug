@@ -140,6 +140,8 @@ public class LoginActivity extends Activity {
                 }
             } catch (ApiException e) {
                 Log.w("TAG", "Google sign in failed", e);
+                Toast.makeText(getApplicationContext(),"Login with google failed",Toast.LENGTH_SHORT).show();
+                progressBar.setVisibility(View.GONE);
             }
         }
     }
