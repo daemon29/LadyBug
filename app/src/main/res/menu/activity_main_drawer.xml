@@ -10,6 +10,10 @@
             android:icon="@drawable/ic_menu_camera"
             android:title="@string/Import" />
         <item
+            android:id="@+id/nav_smart"
+            android:icon="@drawable/ic_smart"
+            android:title="@string/Smart" />
+        <item
             android:id="@+id/nav_map"
             android:icon="@drawable/ic_map"
             android:title="@string/donate_map" />
@@ -27,18 +31,18 @@
             android:title="@string/organization" />
     </group>
 
-    <item android:title="@string/communicate">
-        <menu>
-            <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="@string/share" />
-            <item
-                android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
-                android:title="@string/send" />
-        </menu>
-    </item>
+    <!--<item android:title="@string/communicate">-->
+        <!--<menu>-->
+            <!--<item-->
+                <!--android:id="@+id/nav_share"-->
+                <!--android:icon="@drawable/ic_menu_share"-->
+                <!--android:title="@string/share" />-->
+            <!--<item-->
+                <!--android:id="@+id/nav_send"-->
+                <!--android:icon="@drawable/ic_menu_send"-->
+                <!--android:title="@string/send" />-->
+        <!--</menu>-->
+    <!--</item>-->
     <item android:title="@string/tools">
         <menu>
             <item
